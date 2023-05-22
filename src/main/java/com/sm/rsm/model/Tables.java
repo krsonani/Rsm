@@ -1,6 +1,5 @@
 package com.sm.rsm.model;
 
-import org.antlr.v4.runtime.misc.NotNull;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,12 +13,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Table {
+public class Tables {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int tid;
 	private int capacity;
-	private boolean isAvailable;
+	private boolean isavailable;
 	
 }

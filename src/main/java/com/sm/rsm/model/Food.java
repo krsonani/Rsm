@@ -17,15 +17,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Food {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int fId;
-	private String fName;
-	@Column(length = 3)
-	private String fImage;
-	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int fid;
+	private String fname;
+	@Column(length = 1000)
+	private String fimage;
+	@Column(length = 1000)
 	private String description;
 	private double price;
-	private boolean isAvailable;
+	private boolean isavailable;
 	@ManyToOne
 	private Category category;
 }

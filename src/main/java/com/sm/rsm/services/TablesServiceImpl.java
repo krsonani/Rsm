@@ -4,16 +4,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sm.rsm.dao.TableDao;
-import com.sm.rsm.model.Table;
+import com.sm.rsm.dao.TablesDao;
+import com.sm.rsm.model.Tables;
 
-public class TableServiceImpl implements TableService {
+public class TablesServiceImpl implements TablesService {
 
 	@Autowired
-	private TableDao tableDao;
+	private TablesDao tableDao;
 	
 	@Override
-	public void addTable(Table table) {
+	public void addTable(Tables table) {
 		tableDao.save(table);
 	}
 
@@ -23,17 +23,17 @@ public class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public Table updateTable(Table table) {
+	public Tables updateTable(Tables table) {
 		return tableDao.save(table);
 	}
 
 	@Override
-	public List<Table> getAllTables() {
+	public List<Tables> getAllTables() {
 		return tableDao.findAll();
 	}
 
 	@Override
-	public Table getTableById(int id) {
+	public Tables getTableById(int id) {
 		return tableDao.getReferenceById(id);
 	}
 

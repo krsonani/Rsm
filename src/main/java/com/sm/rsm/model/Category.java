@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Category {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int cId;
-	private String cName;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int cid;
+	private String cname;
 }
