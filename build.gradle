@@ -16,6 +16,7 @@ configurations {
 	}
 }
 
+apply plugin :'eclipse'
 repositories {
 	mavenCentral()
 }
