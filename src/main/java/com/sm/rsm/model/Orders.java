@@ -33,5 +33,5 @@ public class Orders {
 	@ManyToMany
 	private List<Food> food;
 	private double totalprice;
-	private Date date;
+	private Date dates;
 }

@@ -18,7 +18,7 @@ public class Users {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int uid;
+	private int uids;
 	private String name;
 	@Column(unique = true)
 	private String email;
