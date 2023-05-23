@@ -20,18 +20,15 @@ public class OrdersDto {
     private int oid;
 
     @NotNull(message = "User is required")
-    private Users user;
+    private int userid;
 
     @Size(min = 1, message = "At least one table must be selected")
-    private List<Tables> table;
+    private List<Integer> tableIds;
 
     @Size(min = 1, message = "At least one food item must be selected")
-    private List<Food> food;
+    private List<Integer> foodIds;
 
     @Positive(message = "Total price must be a positive value")
     private double totalPrice;
-
-    @NotNull(message = "Date is required")
-    private Date dates;
 
 }

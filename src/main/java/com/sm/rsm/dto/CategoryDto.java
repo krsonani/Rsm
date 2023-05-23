@@ -14,6 +14,6 @@ public class CategoryDto {
 	private int cid;
 	
 	@NotBlank(message = "Category Name is required")
-	private String cName;
+	private String cname;
 	
 }
