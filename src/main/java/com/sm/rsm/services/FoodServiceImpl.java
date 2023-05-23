@@ -32,13 +32,13 @@ public class FoodServiceImpl implements FoodService {
 		return food;
 	}
 	@Override
-	public List<Food> getAllFood(Food food)
+	public List<Food> getAllFood()
 	{
 		return foodDao.findAll();
 	}
-	public Optional<Food> getFoodById(int id)
+	public Food getFoodById(int id)
 	{
-		return foodDao.findById(id);
+		return foodDao.findById(id).get();
 	}
 	
 }

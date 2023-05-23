@@ -23,7 +23,8 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public void deleteCategory(int id) {
-		categoryDao.deleteById(id);
+		categoryDao.deleteById(id)
+;
 	}
 
 	@Override
@@ -33,13 +34,13 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<Category> getAllCategory(Category category) {
+	public List<Category> getAllCategory() {
 		return categoryDao.findAll();
 	}
 
 	@Override
-	public Optional<Category> getCategoryById(int id) {
-		return categoryDao.findById(id);
+	public Category getCategoryById(int id) {
+		return categoryDao.findById(id).get();
 	}
 
 }
