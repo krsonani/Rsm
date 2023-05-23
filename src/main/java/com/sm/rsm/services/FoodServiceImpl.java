@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.sm.rsm.dao.FoodDao;
 import com.sm.rsm.model.Food;
 
+@Repository
 public class FoodServiceImpl implements FoodService {
 	@Autowired
 	FoodDao foodDao;

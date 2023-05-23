@@ -10,4 +10,7 @@ public interface UsersServices {
 	void deleteUsers(int uid);
 	List<Users> getAllUsers();
 	Users getUsers(int uid);
+	void updateUsers(Users user);
+	Users getUsersByEmail(String email);
+	boolean existsByEmail(String email);
 }
