@@ -46,7 +46,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests()
 				.requestMatchers("/user").hasRole("USER")
 				.requestMatchers("/manager").hasRole("MANAGER")
-				.requestMatchers("/","/addUser","/sendMail").permitAll()
+				.requestMatchers("/","/addUser","/sendMail","/getAllTables","/addTable","/toggleTableStatus/{id}").permitAll()
 				.anyRequest().authenticated()
 				.and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

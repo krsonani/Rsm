@@ -16,7 +16,7 @@ public class TablesDto {
 	@Min(value = 2, message = "Capacity must be a positive value")
 	private int capacity;
 	
-	@NotNull(message = "Availability status is required")
-	private boolean isAvailable;
-	
+//	@NotNull(message = "Availability status is required")
+//	private boolean isAvailable;
+//	
 }
