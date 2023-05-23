@@ -25,5 +25,6 @@ public class Users {
 	private String phoneNum;
 	@ManyToOne
 	private Role role;
+	private String password;
 
 }

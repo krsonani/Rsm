@@ -3,15 +3,18 @@ package com.sm.rsm.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.annotations.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+
 
 import com.sm.rsm.dao.UsersDao;
 import com.sm.rsm.model.Users;
 
-@Service
-public class UsersServiceImpl implements UsersService {
-	
+@Repository
+public class UsersServiceImpl implements UsersServices {
 	@Autowired
 	private UsersDao userDao;
 
@@ -39,6 +42,22 @@ public class UsersServiceImpl implements UsersService {
 		return userDao.findAll();
 	}
 
+	@Override
+	public void updateUsers(Users user) {
+		userDao.save(user);
+		
+	}
+
+	@Override
+	public Users getUsersByEmail(String email) {
+		
+		return userDao.findByEmail(email).get();
+	}
+	
+	@Override
+	public boolean existsByEmail(String email) {
+		return userDao.existsByEmail(email);
+	}
 
 
 }

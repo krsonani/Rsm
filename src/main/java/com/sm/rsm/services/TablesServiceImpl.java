@@ -3,12 +3,12 @@ package com.sm.rsm.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import com.sm.rsm.dao.TablesDao;
 import com.sm.rsm.model.Tables;
 
-@Service
+@Repository
 public class TablesServiceImpl implements TablesService {
 
 	@Autowired

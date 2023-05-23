@@ -1,4 +1,4 @@
-package com.sm.rsm;
+ package com.sm.rsm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +9,6 @@ public class RsmApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RsmApplication.class, args);
 	}
-	
 }
 
 
