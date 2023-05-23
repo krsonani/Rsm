@@ -25,7 +25,6 @@ public class EmailController {
 	{
 		String status
 			= emailService.sendSimpleMail(details);
-
 		return status;
 	}
 

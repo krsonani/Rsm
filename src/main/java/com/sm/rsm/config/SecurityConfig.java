@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -44,9 +45,6 @@ public class SecurityConfig {
     			.cors().and()
 				.csrf().disable()
 				.authorizeHttpRequests()
-				.requestMatchers("/user").hasRole("USER")
-				.requestMatchers("/manager").hasRole("MANAGER")
-				.requestMatchers("/","/addUser","/sendMail","/getAllTables","/addTable","/toggleTableStatus/{id}").permitAll()
 				.anyRequest().authenticated()
 				.and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
