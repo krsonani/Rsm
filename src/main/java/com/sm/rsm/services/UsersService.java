@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sm.rsm.model.Users;
 
+
 public interface UsersService {
 	
 	void addUsers(Users user);
