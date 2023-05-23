@@ -22,7 +22,7 @@ public class Users {
 	private String name;
 	@Column(unique = true)
 	private String email;
-	private String phonenum;
+	private String phoneNum;
 	@ManyToOne
 	private Role role;
 

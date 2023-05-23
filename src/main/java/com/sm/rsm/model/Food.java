@@ -19,13 +19,13 @@ public class Food {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int fid;
-	private String fname;
+	private String fName;
 	@Column(length = 1000)
-	private String fimage;
+	private String fImage;
 	@Column(length = 1000)
 	private String description;
 	private double price;
-	private boolean isavailable;
+	private boolean isAvailable;
 	@ManyToOne
 	private Category category;
 }
