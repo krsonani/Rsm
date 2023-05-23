@@ -4,6 +4,7 @@ package com.sm.rsm.cntrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sm.rsm.dto.UserLoginResponce;
+import com.sm.rsm.dto.UsersDto;
+import com.sm.rsm.model.Role;
 import com.sm.rsm.model.Users;
 import com.sm.rsm.services.JwtService;
 import com.sm.rsm.services.UsersService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -40,10 +44,18 @@ public class UsersController {
 	private AuthenticationManager authenticationManager;
 	
 	@PostMapping(value= {"/addUser"})
-	public String addUser(@RequestBody Users user)
+	public String addUser(@Valid @RequestBody UsersDto userD)
 	{ 
-		user.setPassword(encorder.encode(user.getPassword()));
+		Users user = new Users();
+		user.setEmail(userD.getEmail());
+		user.setName(userD.getName());
+ 		user.setPassword(encorder.encode(userD.getPassword()));
+ 		user.setPhoneNum(userD.getPhoneNum());
+ 		Role role= new Role();
+ 		role.setRid(1);
+ 		user.setRole(role);
 		userservice.addUsers(user);
+		System.out.println("hiiiiiiiii");
 		return "success";	
 
 	}
@@ -54,7 +66,6 @@ public class UsersController {
 		System.out.println(user);
 		userservice.updateUsers(user);
 		return "success";
-
 	}
 	
 	@PostMapping(value= {"/getUser"})
@@ -78,6 +89,7 @@ public class UsersController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 	}
+	
 	
 	@GetMapping(value= {"/getSession"})
 	public Users getSession(HttpServletRequest request )
@@ -125,6 +137,7 @@ public class UsersController {
 		
 	}
 	
+	@Secured("ROLE_CUSTOMER")
 	@GetMapping(value= {"/checkEmailIsRegisteredOrNot/{email}"})
 	public String checkEmailAvailability(@PathVariable String email) {
 		
@@ -136,11 +149,6 @@ public class UsersController {
 		
 	}
 	
-	@GetMapping(value= {"/"})
-	public String checking()
-	{
-		return "hello";
-	}
 	
 
 }
