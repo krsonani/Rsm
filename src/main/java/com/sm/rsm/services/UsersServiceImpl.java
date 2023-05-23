@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.sm.rsm.dao.UsersDao;
 import com.sm.rsm.model.Users;
 
-public class UsersServiceImpl implements UsersServices {
+@Service
+public class UsersServiceImpl implements UsersService {
 	
 	@Autowired
 	private UsersDao userDao;
