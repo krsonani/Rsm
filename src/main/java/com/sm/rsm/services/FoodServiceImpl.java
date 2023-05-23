@@ -10,6 +10,7 @@ import com.sm.rsm.dao.FoodDao;
 import com.sm.rsm.model.Food;
 
 @Repository
+
 public class FoodServiceImpl implements FoodService {
 	@Autowired
 	FoodDao foodDao;

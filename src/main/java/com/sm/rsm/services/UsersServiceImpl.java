@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+
+
 import com.sm.rsm.dao.UsersDao;
 import com.sm.rsm.model.Users;
 
 @Repository
 public class UsersServiceImpl implements UsersServices {
-	
 	@Autowired
 	private UsersDao userDao;
 
