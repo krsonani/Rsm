@@ -27,9 +27,9 @@ public class UsersDto {
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "\\d{10}", message = "Invalid phone number format")
     private String phoneNum;
-
-    @NotNull(message = "Role is required")
-    private Role role;
+//
+//    @NotNull(message = "Role is required")
+//    private Role role;
 
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must have at least 8 characters")

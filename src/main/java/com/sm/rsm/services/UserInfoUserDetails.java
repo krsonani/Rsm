@@ -23,16 +23,16 @@ public class UserInfoUserDetails  implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		HashSet<GrantedAuthority> set = new HashSet<GrantedAuthority>();
-		if(user.getRole().equals("user"))
+		if(user.getRole().getType().equals("CUSTOMER"))
 		{
 			set.add(new GrantedAuthority() {
 
 				@Override
 				public String getAuthority() {
-					return "ROLE_USER";
+					return "ROLE_CUSTOMER";
 				}
 			});
-		}else if(user.getRole().equals("manager"))
+		}else if(user.getRole().getType().equals("MANAGER"))
 		{
 			set.add(new GrantedAuthority() {
 

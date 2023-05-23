@@ -1,5 +1,6 @@
 package com.sm.rsm.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Users {
 	@Column(unique = true)
 	private String email;
 	private String phoneNum;
-	@ManyToOne
+    @ManyToOne
 	private Role role;
 	private String password;
 
