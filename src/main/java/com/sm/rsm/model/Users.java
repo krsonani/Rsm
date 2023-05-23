@@ -18,12 +18,13 @@ public class Users {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int uid;
+	private int uids;
 	private String name;
 	@Column(unique = true)
 	private String email;
-	private String phonenum;
+	private String phoneNum;
 	@ManyToOne
 	private Role role;
+	private String password;
 
 }

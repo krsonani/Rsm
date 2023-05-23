@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.sm.rsm.model.Users;
 
-public interface UsersServices {
+public interface UsersService {
 	
 	void addUsers(Users user);
 	void deleteUsers(int uid);

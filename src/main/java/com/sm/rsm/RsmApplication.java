@@ -1,4 +1,4 @@
-package com.sm.rsm;
+ package com.sm.rsm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,9 +6,10 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class RsmApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(RsmApplication.class, args);
 	}
-
 }
+
+
