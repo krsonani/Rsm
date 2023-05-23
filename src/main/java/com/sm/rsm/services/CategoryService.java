@@ -9,7 +9,7 @@ public interface CategoryService {
 	public void addCategory(Category category);
 	public void deleteCategory(int id);
 	public Category updateCategory(Category category);
-	public List<Category> getAllCategory(Category category);
-	public Optional<Category> getCategoryById(int id);
+	public List<Category> getAllCategory();
+	public Category getCategoryById(int id);
 	
 }

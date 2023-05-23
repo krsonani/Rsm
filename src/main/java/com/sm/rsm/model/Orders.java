@@ -1,10 +1,7 @@
 package com.sm.rsm.model;
 
-import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,5 +30,5 @@ public class Orders {
 	@ManyToMany
 	private List<Food> food;
 	private double totalPrice;
-	private Date dates;
+	private String dates;
 }

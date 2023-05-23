@@ -40,4 +40,10 @@ public class OrdersServiceImpl implements OrdersService {
 		return ordersDao.findById(id);
 	}
 
+	@Override
+	public List<Orders> getOrdersByDates(String date) {
+		// TODO Auto-generated method stub
+		return ordersDao.findByDates(date);
+	}
+
 }

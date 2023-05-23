@@ -10,4 +10,6 @@ public interface OrdersService {
 	public List<Orders> getAllOrders();
 	public List<Orders> getOrdersByUserId(int id);
 	public Optional<Orders> getOrdersById(int id);
+	public List<Orders> getOrdersByDates(String date);
+	
 }
