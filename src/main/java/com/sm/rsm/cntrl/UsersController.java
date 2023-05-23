@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sm.rsm.dto.UserLoginResponce;
 import com.sm.rsm.model.Users;
 import com.sm.rsm.services.JwtService;
-import com.sm.rsm.services.UsersServices;
+import com.sm.rsm.services.UsersService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @CrossOrigin(origins = {"*"})
 public class UsersController {
 	@Autowired
-	private  UsersServices userservice;
+	private  UsersService userservice;
 
 	@Autowired
 	private PasswordEncoder encorder;

@@ -14,7 +14,7 @@ import com.sm.rsm.dao.UsersDao;
 import com.sm.rsm.model.Users;
 
 @Repository
-public class UsersServiceImpl implements UsersServices {
+public class UsersServiceImpl implements UsersService {
 	@Autowired
 	private UsersDao userDao;
 
