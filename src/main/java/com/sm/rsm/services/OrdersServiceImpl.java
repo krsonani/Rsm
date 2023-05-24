@@ -20,6 +20,7 @@ public class OrdersServiceImpl implements OrdersService {
 
 	@Override
 	public void addOrders(Orders order) {
+		System.out.println(order);
 		ordersDao.save(order);
 	}
 

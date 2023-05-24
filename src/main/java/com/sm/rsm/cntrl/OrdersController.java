@@ -58,32 +58,26 @@ public class OrdersController {
 		}
 		orders.setTable(list);
 		
-		//need to work on this map thing
-		
 		Map<Integer,Integer> foodItems=ordersDto.getFoodItem();
-		Map<Food,Integer> map= new HashMap<>();
+		Map<Integer,Integer> map= new HashMap<>();
+		List<Food> foodList = new ArrayList<>();
 		
 		for(Map.Entry<Integer, Integer> entry : foodItems.entrySet()) {
 			Food food = new Food();
 			food.setFid(entry.getKey());
-			map.put(food, entry.getValue());
+			foodList.add(food);
+			map.put(food.getFid(), entry.getValue());
 		}
-		orders.setFood(map);
 		
-/*		
-		List<Integer> listOfFood = ordersDto.getFoodIds();
-		List<Food> lists= new ArrayList<>();
-		for(Integer foodid: listOfFood)
-		{
-			Food food = new Food();
-			food.setFid(foodid);
-			lists.add(food);
-		}
-		orders.setFood(lists);
-*/		
+		orders.setFoodList(foodList);
+		orders.setFoodMap(map);
+		
 		orders.setTotalPrice(ordersDto.getTotalPrice());
 		
 		orders.setDates( LocalDate.now().toString() );
+		
+		System.out.println(orders);
+		
 		orderService.addOrders(orders);
 		return new ResponseEntity<String>("Order added",HttpStatus.OK);
 	}

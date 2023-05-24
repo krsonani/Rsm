@@ -26,9 +26,6 @@ public class FoodDto {
 	@Positive(message = "Price must be a positive value")
 	private double price;
 	
-//	//@NotNull(message = "Availability status is required")
-//	private boolean isAvailable;
-	
 	private int categoryId;
 	
 	
