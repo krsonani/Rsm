@@ -1,9 +1,7 @@
 package com.sm.rsm.dto;
 
-import com.sm.rsm.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -27,12 +25,11 @@ public class UsersDto {
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "\\d{10}", message = "Invalid phone number format")
     private String phoneNum;
-//
-//    @NotNull(message = "Role is required")
-//    private Role role;
 
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must have at least 8 characters")
     private String password;
+    
+    private String otp;
 
 }

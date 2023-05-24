@@ -20,6 +20,7 @@ public class OrdersServiceImpl implements OrdersService {
 
 	@Override
 	public void addOrders(Orders order) {
+		System.out.println(order);
 		ordersDao.save(order);
 	}
 
@@ -38,6 +39,12 @@ public class OrdersServiceImpl implements OrdersService {
 	public Optional<Orders> getOrdersById(int id) {
 		// TODO Auto-generated method stub
 		return ordersDao.findById(id);
+	}
+
+	@Override
+	public List<Orders> getOrdersByDates(String date) {
+		// TODO Auto-generated method stub
+		return ordersDao.findByDates(date);
 	}
 
 }

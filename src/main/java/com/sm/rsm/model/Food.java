@@ -19,9 +19,9 @@ public class Food {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int fid;
-	private String fName;
+	private String fname;
 	@Column(length = 1000)
-	private String fImage;
+	private String fimage;
 	@Column(length = 1000)
 	private String description;
 	private double price;

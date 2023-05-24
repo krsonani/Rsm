@@ -11,4 +11,5 @@ public interface OrdersDao extends JpaRepository<Orders, Integer> {
 
 
 	List<Orders> findByUser(Users user);
+	List<Orders> findByDates(String date);
 }

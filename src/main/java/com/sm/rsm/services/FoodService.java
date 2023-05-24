@@ -10,6 +10,7 @@ public interface FoodService {
 	public void addFood(Food food);
 	public void deleteFood(int id);
 	public Food updateFood(Food food);
+
 	public List<Food> getAllFood();
 	public Food getFoodById(int id);
 
