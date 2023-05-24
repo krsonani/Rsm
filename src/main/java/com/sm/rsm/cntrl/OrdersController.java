@@ -2,7 +2,9 @@ package com.sm.rsm.cntrl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,6 +58,19 @@ public class OrdersController {
 		}
 		orders.setTable(list);
 		
+		//need to work on this map thing
+		
+		Map<Integer,Integer> foodItems=ordersDto.getFoodItem();
+		Map<Food,Integer> map= new HashMap<>();
+		
+		for(Map.Entry<Integer, Integer> entry : foodItems.entrySet()) {
+			Food food = new Food();
+			food.setFid(entry.getKey());
+			map.put(food, entry.getValue());
+		}
+		orders.setFood(map);
+		
+/*		
 		List<Integer> listOfFood = ordersDto.getFoodIds();
 		List<Food> lists= new ArrayList<>();
 		for(Integer foodid: listOfFood)
@@ -65,7 +80,7 @@ public class OrdersController {
 			lists.add(food);
 		}
 		orders.setFood(lists);
-		
+*/		
 		orders.setTotalPrice(ordersDto.getTotalPrice());
 		
 		orders.setDates( LocalDate.now().toString() );
@@ -76,6 +91,7 @@ public class OrdersController {
 	@GetMapping("/getOrderByUserId/{id}")
 	public ResponseEntity<List<Orders>> getOrderByUserId(@PathVariable int id)
 	{
+		
 		return new ResponseEntity<>(orderService.getOrdersByUserId(id),HttpStatus.OK);
 	}
 	@GetMapping("/getOrderByCurrentDate")

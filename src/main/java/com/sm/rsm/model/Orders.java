@@ -1,6 +1,7 @@
 package com.sm.rsm.model;
 
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ public class Orders {
 	@ManyToMany
 	private List<Tables> table;
 	@ManyToMany
-	private List<Food> food;
+	private Map<Food,Integer> food;
 	private double totalPrice;
 	private String dates;
 }

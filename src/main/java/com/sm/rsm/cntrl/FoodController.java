@@ -45,8 +45,8 @@ public class FoodController {
 	public ResponseEntity<Object> addFood(@Valid @RequestBody FoodDto foodDto){
 		
 		Food food = new Food();
-		food.setFName(foodDto.getFname());
-		food.setFImage(foodDto.getFimage());
+		food.setFname(foodDto.getFname());
+		food.setFimage(foodDto.getFimage());
 		food.setDescription(foodDto.getDescription());
 		food.setPrice(foodDto.getPrice());
 		food.setPrice(foodDto.getPrice());
@@ -69,8 +69,8 @@ public class FoodController {
 	public ResponseEntity<String> updateFood(@PathVariable int fid, @Valid @RequestBody FoodDto foodDto){
 		
 		Food food = foodService.getFoodById(fid);
-		food.setFName(foodDto.getFname());
-		food.setFImage(foodDto.getFimage());
+		food.setFname(foodDto.getFname());
+		food.setFimage(foodDto.getFimage());
 		food.setDescription(foodDto.getDescription());
 		food.setPrice(foodDto.getPrice());
 		food.setPrice(foodDto.getPrice());
@@ -97,6 +97,16 @@ public class FoodController {
 		category.setCid(cid);
 		
 		return new ResponseEntity<>(foodDao.findByCategory(category), HttpStatus.OK);
+	}
+	
+	@PutMapping("/toggleFoodAvailability/{fid}")
+	public ResponseEntity<Object> toggleFoodAvailability(@PathVariable int fid){
+		
+		Food food = foodService.getFoodById(fid);
+		food.setAvailable(!food.isAvailable());
+		foodService.updateFood(food);
+		
+		return new ResponseEntity<>("Food availability is toggled", HttpStatus.OK);
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
