@@ -71,11 +71,7 @@ public class OrdersController {
 		
 		orders.setFoodList(foodList);
 		orders.setFoodMap(map);
-
-		orders.setFood(map);
 	
-		
-		
 		orders.setTotalPrice(ordersDto.getTotalPrice());
 		
 		orders.setDates( LocalDate.now().toString() );
