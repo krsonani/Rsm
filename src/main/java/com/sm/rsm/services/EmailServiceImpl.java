@@ -1,8 +1,14 @@
 package com.sm.rsm.services;
 
+import com.sm.rsm.dto.EmailOtpDto;
+import com.sm.rsm.dto.UsersDto;
 //Importing required classes
 import com.sm.rsm.model.EmailDetails;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -13,14 +19,20 @@ import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.validation.Valid;
 
 //Annotation
 @Service
 //Implementing EmailService interface
 public class EmailServiceImpl implements EmailService {
+	
+	@Autowired UsersService userService;
 
 	@Autowired private JavaMailSender javaMailSender;
 
+	static Map<String,String> emailOtpMap= new HashMap<>();
+	static Map<String,String> emailNewUser= new HashMap<>();
+	
 	@Value("${spring.mail.username}") private String sender;
 
 	// Method 1
@@ -95,5 +107,65 @@ public class EmailServiceImpl implements EmailService {
 			// Display message when exception occurred
 			return "Error while sending mail!!!";
 		}
+	}
+
+	@Override
+	public boolean sendForgetMail(EmailOtpDto emilOtpDto) {
+		if(userService.existsByEmail(emilOtpDto.getEmail()))
+		{
+			EmailDetails details = new EmailDetails();
+			details.setRecipient(emilOtpDto.getEmail());
+			String otp=getRandomNumberString();
+			details.setMsgBody(otp);
+			details.setSubject("Confirm OTP:");
+			sendSimpleMail(details);
+			emailOtpMap.put(emilOtpDto.getEmail(), otp);
+			return true;
+		}
+		else
+			return false;
+	}
+	public static String getRandomNumberString() {
+	    // It will generate 6 digit random Number.
+	    // from 0 to 999999
+	    Random rnd = new Random();
+	    int number = rnd.nextInt(999999);
+
+	    // this will convert any number sequence into 6 character.
+	    return String.format("%06d", number);
+	}
+
+	@Override
+	public boolean approveForgetOtp(@Valid EmailOtpDto emailOtpDto) {
+		if(emailOtpMap.get(emailOtpDto.getEmail()).equals(emailOtpDto.getOtp()))
+			return true;
+		else 
+			return false;
+	}
+
+	@Override
+	public boolean sendNewMail(String email) {
+		if(userService.existsByEmail(email))
+			return false;
+		else
+		{
+			EmailDetails details = new EmailDetails();
+			details.setRecipient(email);
+			String otp=getRandomNumberString();
+			details.setMsgBody(otp);
+			details.setSubject("Confirm OTP:");
+			sendSimpleMail(details);
+			
+			emailNewUser.put(email, otp);
+			return true;
+		}
+	}
+
+	@Override
+	public boolean verifyNewUserOtp(UsersDto usersDto) {
+		if(emailNewUser.get(usersDto.getEmail()).equals(usersDto.getOtp()))
+			return true;
+		else 
+			return false;
 	}
 }

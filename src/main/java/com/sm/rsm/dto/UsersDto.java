@@ -29,5 +29,7 @@ public class UsersDto {
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must have at least 8 characters")
     private String password;
+    
+    private String otp;
 
 }

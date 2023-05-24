@@ -38,6 +38,7 @@ public class Orders {
 	
 	@ElementCollection
 	private Map<Integer,Integer> foodMap;
+
 	private double totalPrice;
 	private String dates;
 }
