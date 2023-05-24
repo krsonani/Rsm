@@ -57,6 +57,7 @@ public class OrdersController {
 			list.add(table);
 		}
 		orders.setTable(list);
+		
 		Map<Integer,Integer> foodItems=ordersDto.getFoodItem();
 		Map<Integer,Integer> map= new HashMap<>();
 		List<Food> foodList = new ArrayList<>();
@@ -71,10 +72,6 @@ public class OrdersController {
 		
 		orders.setFoodList(foodList);
 		orders.setFoodMap(map);
-
-		orders.setFood(map);
-	
-		
 		
 		orders.setTotalPrice(ordersDto.getTotalPrice());
 		
