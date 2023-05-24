@@ -34,7 +34,7 @@ public class CategoryController {
 	{
 		System.out.println("inside");
 		Category category= new Category();
-		category.setCName(categoryDto.getCname()) ;
+		category.setCname(categoryDto.getCname()) ;
 		System.out.println(category.toString());
 		categoryService.addCategory(category);
 		return new ResponseEntity<>("Category added",HttpStatus.OK);
@@ -51,6 +51,7 @@ public class CategoryController {
 	{
 		return new ResponseEntity<>(categoryService.getAllCategory(),HttpStatus.OK);
 	}
+	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public Map<String, String> onMethodArgumentNotValidException(MethodArgumentNotValidException ex) {

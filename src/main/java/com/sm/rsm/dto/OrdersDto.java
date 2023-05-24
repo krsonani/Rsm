@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import com.sm.rsm.model.Food;
 import com.sm.rsm.model.Tables;
 import com.sm.rsm.model.Users;
@@ -26,7 +28,7 @@ public class OrdersDto {
     private List<Integer> tableIds;
 
     @Size(min = 1, message = "At least one food item must be selected")
-    private List<Integer> foodIds;
+    private Map<Integer,Integer> foodItem;
 
     @Positive(message = "Total price must be a positive value")
     private double totalPrice;

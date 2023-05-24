@@ -16,5 +16,5 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int cid;
-	private String cName;
+	private String cname;
 }
