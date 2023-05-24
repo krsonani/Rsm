@@ -1,8 +1,10 @@
 package com.sm.rsm.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sm.rsm.model.Tables;
+import com.sm.rsm.model.Users;
 
 public interface TablesService {
 
@@ -12,4 +14,13 @@ public interface TablesService {
 	List<Tables> getAllTables();
 	Tables getTableById(int id);
 	
+	void addToWaitingListForAnySittingTable(int id, int capacity);
+//	void addToWaitingListForFourSittingTable(int id);
+//	void addToWaitingListForEightSittingTable(int id);
+	
+	int autoAssignUserToTable(Tables table);
+	List<Integer> autoAssignedTableId(int id);
+	void displayAllStaticVariables();
+	Map<Users,Integer> getAllSurplusUsers();
+	void assigningWaitingUserToTable(int userId, int tableId);
 }
