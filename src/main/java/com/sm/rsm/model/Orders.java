@@ -29,7 +29,7 @@ public class Orders {
 	@ManyToMany
 	private List<Tables> table;
 	@ManyToMany
-	private Map<Food,Integer> food;
+	private List<Food> food;
 	private double totalPrice;
 	private String dates;
 }

@@ -21,13 +21,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sm.rsm.dto.EmailOtpDto;
 import com.sm.rsm.dto.UserLoginResponce;
 import com.sm.rsm.dto.UsersDto;
 import com.sm.rsm.model.Role;
 import com.sm.rsm.model.Users;
+import com.sm.rsm.services.EmailService;
 import com.sm.rsm.services.JwtService;
 import com.sm.rsm.services.UsersService;
 
@@ -46,10 +49,42 @@ public class UsersController {
 	private PasswordEncoder encorder;
 	@Autowired
 	private JwtService jwtService;
+	@Autowired
+	private EmailService emailService;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
+	@GetMapping("/verifyNewUser/{email}")
+	public ResponseEntity<String> verifyNewUser(@PathVariable String email)
+	{
+		if(emailService.sendNewMail(email))
+			return new ResponseEntity<>("OTP Sent",HttpStatus.OK);
+		else
+			return new ResponseEntity<>("Invalid Email",HttpStatus.BAD_REQUEST);
+		
+				
+	}
+	@PostMapping("/verifyNewUserOtp")
+	public ResponseEntity<String> verifyNewUserOtp(@RequestBody UsersDto userD)
+	{
+		if(emailService.verifyNewUserOtp(userD))
+		{	Users user = new Users();
+			user.setEmail(userD.getEmail());
+			user.setName(userD.getName());
+	 		user.setPassword(encorder.encode(userD.getPassword()));
+	 		user.setPhoneNum(userD.getPhoneNum());
+	 		Role role= new Role();
+	 		role.setRid(1);
+	 		user.setRole(role);
+			userservice.addUsers(user);
+			return new ResponseEntity<>("User Registered",HttpStatus.OK);
+		}
+		else
+			return new ResponseEntity<>("Invalid OTP",HttpStatus.BAD_REQUEST);
+		
+				
+	}
 	@PostMapping(value= {"/addUser"})
 	public String addUser(@Valid @RequestBody UsersDto userD)
 	{ 

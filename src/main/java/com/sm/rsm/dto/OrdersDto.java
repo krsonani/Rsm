@@ -28,7 +28,7 @@ public class OrdersDto {
     private List<Integer> tableIds;
 
     @Size(min = 1, message = "At least one food item must be selected")
-    private Map<Integer,Integer> foodItem;
+    private List<Integer> foodids;
 
     @Positive(message = "Total price must be a positive value")
     private double totalPrice;
