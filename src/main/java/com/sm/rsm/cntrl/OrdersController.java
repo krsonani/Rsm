@@ -59,7 +59,7 @@ public class OrdersController {
 		orders.setTable(list);
 		
 		//need to work on this map thing
-		
+	/*	
 		Map<Integer,Integer> foodItems=ordersDto.getFoodItem();
 		Map<Food,Integer> map= new HashMap<>();
 		
@@ -69,9 +69,9 @@ public class OrdersController {
 			map.put(food, entry.getValue());
 		}
 		orders.setFood(map);
+	*/	
 		
-/*		
-		List<Integer> listOfFood = ordersDto.getFoodIds();
+		List<Integer> listOfFood = ordersDto.getFoodids();
 		List<Food> lists= new ArrayList<>();
 		for(Integer foodid: listOfFood)
 		{
@@ -80,7 +80,7 @@ public class OrdersController {
 			lists.add(food);
 		}
 		orders.setFood(lists);
-*/		
+		
 		orders.setTotalPrice(ordersDto.getTotalPrice());
 		
 		orders.setDates( LocalDate.now().toString() );
