@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import com.sm.rsm.services.TablesService;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = {"*"})
 public class TablesController {
 	Map<String,String> response = new HashMap<>();
 	
@@ -33,15 +35,17 @@ public class TablesController {
 	@PostMapping("/addTable")
 	public ResponseEntity<?> addTable(@Valid @RequestBody TablesDto tablesdto){
 		
-		Tables tables = new Tables();
-		tables.setCapacity(tablesdto.getCapacity());
-		tables.setAvailable(true);
-		System.out.println(tables.toString());
-		tablesService.addTable(tables);
-		
-		response.put("msg", "Table Added");
-		response.put("status", "200");
-		return new ResponseEntity<>(response, HttpStatus.OK);
+
+		for(int i=0;i<tablesdto.getQuantity();i++)
+		{
+			
+			Tables tables = new Tables();
+			tables.setCapacity(tablesdto.getCapacity());
+			tables.setAvailable(true);
+			System.out.println(tables.toString());
+			tablesService.addTable(tables);
+		}
+		return new ResponseEntity<>("Table added", HttpStatus.OK);
 	}
 	
 	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})

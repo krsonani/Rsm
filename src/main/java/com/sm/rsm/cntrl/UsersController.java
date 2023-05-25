@@ -140,6 +140,7 @@ public class UsersController {
 	{
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
 				user.getEmail(), user.getPassword());
+		
 		System.out.println(authToken);
 		try {
 			// authenticate the credentials
