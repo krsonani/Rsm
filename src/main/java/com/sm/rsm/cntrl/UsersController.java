@@ -69,15 +69,12 @@ public class UsersController {
 	public ResponseEntity<String> verifyNewUserOtp(@RequestBody UsersDto userD)
 	{
 		if(emailService.verifyNewUserOtp(userD))
-		{	Users user = new Users();
-			user.setEmail(userD.getEmail());
-			user.setName(userD.getName());
-	 		user.setPassword(encorder.encode(userD.getPassword()));
-	 		user.setPhoneNum(userD.getPhoneNum());
+		{	
+			Users user = new Users();
 	 		Role role= new Role();
 	 		role.setRid(1);
 	 		user.setRole(role);
-			userservice.addUsers(user);
+			userservice.addUsers(user,userD);
 			return new ResponseEntity<>("User Registered",HttpStatus.OK);
 		}
 		else
@@ -85,21 +82,34 @@ public class UsersController {
 		
 				
 	}
+	//This has to be removed, it is only used for testing purpose...
 	@PostMapping(value= {"/addUser"})
 	public String addUser(@Valid @RequestBody UsersDto userD)
 	{ 
 		Users user = new Users();
-		user.setEmail(userD.getEmail());
-		user.setName(userD.getName());
- 		user.setPassword(encorder.encode(userD.getPassword()));
- 		user.setPhoneNum(userD.getPhoneNum());
  		Role role= new Role();
  		role.setRid(1);
  		user.setRole(role);
-		userservice.addUsers(user);
+		userservice.addUsers(user,userD);
 		System.out.println("hiiiiiiiii");
 		return "success";	
 
+	}
+	@PostMapping(value= {"/addManager"})
+	public ResponseEntity<String> addManager(@Valid @RequestBody UsersDto userD)
+	{ 
+		System.out.println(userD.toString());
+		if(userservice.existsByEmail(userD.getEmail()))
+			return new ResponseEntity<>("Email already Exist",HttpStatus.BAD_REQUEST);
+		else
+		{	
+			Users user = new Users();
+	 		Role role= new Role();
+	 		role.setRid(2);
+	 		user.setRole(role);
+			userservice.addUsers(user,userD);
+			return new ResponseEntity<>("Manager Registered",HttpStatus.OK);
+		}
 	}
 	@PutMapping(value= {"/updateUser"})
 	public String updateUser(@RequestBody Users user)

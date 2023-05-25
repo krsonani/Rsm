@@ -138,7 +138,10 @@ public class EmailServiceImpl implements EmailService {
 	@Override
 	public boolean approveForgetOtp(@Valid EmailOtpDto emailOtpDto) {
 		if(emailOtpMap.get(emailOtpDto.getEmail()).equals(emailOtpDto.getOtp()))
+		{
+			emailOtpMap.remove(emailOtpDto.getEmail());
 			return true;
+		}
 		else 
 			return false;
 	}
@@ -164,7 +167,10 @@ public class EmailServiceImpl implements EmailService {
 	@Override
 	public boolean verifyNewUserOtp(UsersDto usersDto) {
 		if(emailNewUser.get(usersDto.getEmail()).equals(usersDto.getOtp()))
+		{
+			emailNewUser.remove(usersDto.getEmail());
 			return true;
+		}
 		else 
 			return false;
 	}

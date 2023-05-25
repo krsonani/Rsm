@@ -2,12 +2,13 @@ package com.sm.rsm.services;
 
 import java.util.List;
 
+import com.sm.rsm.dto.UsersDto;
 import com.sm.rsm.model.Users;
 
 
 public interface UsersService {
 	
-	void addUsers(Users user);
+	void addUsers(Users user,UsersDto userD);
 	void deleteUsers(int uid);
 	List<Users> getAllUsers();
 	Users getUsers(int uid);
