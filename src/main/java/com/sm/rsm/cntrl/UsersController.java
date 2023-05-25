@@ -54,33 +54,27 @@ public class UsersController {
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	Map<String,String> response=new HashMap<String,String>();
 	
+	@Secured({ "ROLE_CUSTOMER" })
 	@GetMapping("/verifyNewUser/{email}")
 	public ResponseEntity<?> verifyNewUser(@PathVariable String email)
 	{
-		HashMap<String,String> hs= new HashMap<>();
 		
-		if(emailService.sendNewMail(email))
-		{
-			
-			hs.put("msg", "OTP sent");
-			hs.put("status","201");
-			return new ResponseEntity<>(hs,HttpStatus.CREATED);
+		if(emailService.sendNewMail(email)) {
+			response.put("msg", "OTP sent");
+			return new ResponseEntity<>(response ,HttpStatus.OK);
 		}
-		else
-		{
-			hs.put("msg","Invalid Email");
-			hs.put("status","400");
-			return new ResponseEntity<>(hs,HttpStatus.BAD_REQUEST);
-		}			
+		else {
+			response.put("msg", "Email already Exist");
+			response.put("status", "200");
+			return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+		}
 	}
-	
-	
+	@Secured({ "ROLE_CUSTOMER" })
 	@PostMapping("/verifyNewUserOtp")
 	public ResponseEntity<?> verifyNewUserOtp(@RequestBody UsersDto userD)
-	{
-		HashMap<String,String> hs= new HashMap<>();
-		
+	{	
 		if(emailService.verifyNewUserOtp(userD))
 		{	
 			Users user = new Users();
@@ -88,18 +82,15 @@ public class UsersController {
 	 		role.setRid(1);
 	 		user.setRole(role);
 			userservice.addUsers(user,userD);
-			hs.put("msg", "User Registered");
-			hs.put("status","201");
-			return new ResponseEntity<>(hs,HttpStatus.CREATED);
+			response.put("msg", "User Registered");
+			response.put("status", "200");
+			return new ResponseEntity<>(response ,HttpStatus.OK);
 		}
-		else
-		{
-			hs.put("msg", "Invalid OTP");
-			hs.put("status","400");
-			return new ResponseEntity<>(hs,HttpStatus.BAD_REQUEST);
+		else {
+			response.put("msg", "Invalid OTP");
+			response.put("status", "400");
+			return new ResponseEntity<>(response ,HttpStatus.BAD_REQUEST);
 		}
-			
-		
 				
 	}
 	//This has to be removed, it is only used for testing purpose...
@@ -115,12 +106,13 @@ public class UsersController {
 		return "success";	
 
 	}
+	@Secured({ "ROLE_MANAGER" })
 	@PostMapping(value= {"/addManager"})
-	public ResponseEntity<String> addManager(@Valid @RequestBody UsersDto userD)
-	{ 
-		System.out.println(userD.toString());
+	public ResponseEntity<?> addManager(@Valid @RequestBody UsersDto userD)
+	{ 	
+		
 		if(userservice.existsByEmail(userD.getEmail()))
-			return new ResponseEntity<>("Email already Exist",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(response ,HttpStatus.OK);
 		else
 		{	
 			Users user = new Users();
@@ -128,9 +120,12 @@ public class UsersController {
 	 		role.setRid(2);
 	 		user.setRole(role);
 			userservice.addUsers(user,userD);
-			return new ResponseEntity<>("Manager Registered",HttpStatus.OK);
+			response.put("msg", "Manager Registered");
+			response.put("status", "200");
+			return new ResponseEntity<>(response ,HttpStatus.OK);
 		}
 	}
+	@Secured({ "ROLE_CUSTOMER" })
 	@PutMapping(value= {"/updateUser"})
 	public String updateUser(@RequestBody Users user)
 	{
@@ -139,7 +134,7 @@ public class UsersController {
 		userservice.updateUsers(user);
 		return "success";
 	}
-	
+	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@PostMapping(value= {"/getUser"})
 	public ResponseEntity<?> getUserDetails(@RequestBody Users user) 
 	{
@@ -163,7 +158,7 @@ public class UsersController {
 		}
 	}
 	
-	
+	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@GetMapping(value= {"/getSession"})
 	public Users getSession(HttpServletRequest request )
 	{
@@ -186,8 +181,9 @@ public class UsersController {
 		return usersession;
 	}
 	
+	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@GetMapping(value= {"/api/verifytoken"})
-	public ResponseEntity<?>  varifyToken(HttpServletRequest request, HttpServletResponse response)
+	public ResponseEntity<?>  verifyToken(HttpServletRequest request, HttpServletResponse response)
 	{
 		System.out.println("hi");
 		String token=null;
@@ -237,3 +233,4 @@ public class UsersController {
 	
 
 }
+
