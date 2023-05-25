@@ -56,18 +56,31 @@ public class UsersController {
 	private AuthenticationManager authenticationManager;
 	
 	@GetMapping("/verifyNewUser/{email}")
-	public ResponseEntity<String> verifyNewUser(@PathVariable String email)
+	public ResponseEntity<?> verifyNewUser(@PathVariable String email)
 	{
-		if(emailService.sendNewMail(email))
-			return new ResponseEntity<>("OTP Sent",HttpStatus.OK);
-		else
-			return new ResponseEntity<>("Invalid Email",HttpStatus.BAD_REQUEST);
+		HashMap<String,String> hs= new HashMap<>();
 		
-				
+		if(emailService.sendNewMail(email))
+		{
+			
+			hs.put("msg", "OTP sent");
+			hs.put("status","201");
+			return new ResponseEntity<>(hs,HttpStatus.CREATED);
+		}
+		else
+		{
+			hs.put("msg","Invalid Email");
+			hs.put("status","400");
+			return new ResponseEntity<>(hs,HttpStatus.BAD_REQUEST);
+		}			
 	}
+	
+	
 	@PostMapping("/verifyNewUserOtp")
-	public ResponseEntity<String> verifyNewUserOtp(@RequestBody UsersDto userD)
+	public ResponseEntity<?> verifyNewUserOtp(@RequestBody UsersDto userD)
 	{
+		HashMap<String,String> hs= new HashMap<>();
+		
 		if(emailService.verifyNewUserOtp(userD))
 		{	
 			Users user = new Users();
@@ -75,10 +88,17 @@ public class UsersController {
 	 		role.setRid(1);
 	 		user.setRole(role);
 			userservice.addUsers(user,userD);
-			return new ResponseEntity<>("User Registered",HttpStatus.OK);
+			hs.put("msg", "User Registered");
+			hs.put("status","201");
+			return new ResponseEntity<>(hs,HttpStatus.CREATED);
 		}
 		else
-			return new ResponseEntity<>("Invalid OTP",HttpStatus.BAD_REQUEST);
+		{
+			hs.put("msg", "Invalid OTP");
+			hs.put("status","400");
+			return new ResponseEntity<>(hs,HttpStatus.BAD_REQUEST);
+		}
+			
 		
 				
 	}
@@ -125,6 +145,7 @@ public class UsersController {
 	{
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
 				user.getEmail(), user.getPassword());
+		
 		System.out.println(authToken);
 		try {
 			// authenticate the credentials

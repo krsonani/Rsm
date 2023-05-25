@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import com.sm.rsm.services.TablesService;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = {"*"})
 public class TablesController {
 	
 	@Autowired
@@ -29,12 +31,15 @@ public class TablesController {
 	@PostMapping("/addTable")
 	public ResponseEntity<String> addTable(@Valid @RequestBody TablesDto tablesdto){
 		
-		Tables tables = new Tables();
-		tables.setCapacity(tablesdto.getCapacity());
-		tables.setAvailable(true);
-		System.out.println(tables.toString());
-		tablesService.addTable(tables);
-		
+		for(int i=0;i<tablesdto.getQuantity();i++)
+		{
+			
+			Tables tables = new Tables();
+			tables.setCapacity(tablesdto.getCapacity());
+			tables.setAvailable(true);
+			System.out.println(tables.toString());
+			tablesService.addTable(tables);
+		}
 		return new ResponseEntity<>("Table added", HttpStatus.OK);
 	}
 	
