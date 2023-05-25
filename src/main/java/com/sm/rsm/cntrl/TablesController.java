@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sm.rsm.dto.OrdersDto;
 import com.sm.rsm.dto.TablesDto;
 import com.sm.rsm.model.Tables;
 import com.sm.rsm.model.Users;
@@ -52,7 +53,9 @@ public class TablesController {
 	}
 	
 	@PostMapping("/toggleTableStatus")
-	public ResponseEntity<String> toggleTableStatus(@RequestBody List<Integer> tableIds){
+	public ResponseEntity<String> toggleTableStatus(@RequestBody OrdersDto orderDto){
+		
+		List<Integer> tableIds = orderDto.getTableIds();
 		
 		for(Integer id : tableIds) {
 			Tables tables = tablesService.getTableById(id);
