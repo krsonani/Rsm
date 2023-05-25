@@ -5,23 +5,30 @@ import java.util.Optional;
 
 import org.hibernate.annotations.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 
 
 import com.sm.rsm.dao.UsersDao;
+import com.sm.rsm.dto.UsersDto;
 import com.sm.rsm.model.Users;
 
 @Repository
 public class UsersServiceImpl implements UsersService {
 	@Autowired
 	private UsersDao userDao;
+	@Autowired
+	private PasswordEncoder encorder;
 
 	@Override
-	public void addUsers(Users user) {
+	public void addUsers(Users user,UsersDto userD) {
+		user.setEmail(userD.getEmail());
+		user.setName(userD.getName());
+ 		user.setPassword(encorder.encode(userD.getPassword()));
+ 		user.setPhoneNum(userD.getPhoneNum());
 		userDao.save(user);
-		
 	}
 
 	@Override
