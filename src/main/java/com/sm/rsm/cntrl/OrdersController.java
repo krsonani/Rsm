@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,10 +39,13 @@ public class OrdersController {
 	@Autowired
 	FoodService foodService;
 	
+	Map<String,String> response=new HashMap<String,String>();
 	
+	@Secured({"ROLE_CUSTOMER"})
 	@PostMapping("/addOrder")
-	public ResponseEntity<String> addOrder(@Valid @RequestBody OrdersDto ordersDto)
+	public ResponseEntity<?> addOrder(@Valid @RequestBody OrdersDto ordersDto)
 	{
+		
 		Orders orders= new Orders();
 		
 		Users users= new Users();
@@ -79,15 +83,20 @@ public class OrdersController {
 		System.out.println(orders);
 		
 		orderService.addOrders(orders);
-		return new ResponseEntity<String>("Order added",HttpStatus.OK);
+		response.put("msg", "Orders Added");
+		response.put("status", "200");
+		return new ResponseEntity<>(response ,HttpStatus.OK);
 	}
 	
+	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@GetMapping("/getOrderByUserId/{id}")
 	public ResponseEntity<List<Orders>> getOrderByUserId(@PathVariable int id)
 	{
 		
 		return new ResponseEntity<>(orderService.getOrdersByUserId(id),HttpStatus.OK);
 	}
+	
+	@Secured({ "ROLE_MANAGER"})
 	@GetMapping("/getOrderByCurrentDate")
 	public ResponseEntity<List<Orders>> getOrderByCurrentDate()
 	{	

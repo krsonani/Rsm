@@ -1,3 +1,4 @@
+
 package com.sm.rsm.cntrl;
 
 import java.util.HashMap;
@@ -6,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +31,6 @@ import com.sm.rsm.services.FoodService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/food")
 public class FoodController {
 
 	@Autowired
@@ -41,6 +42,9 @@ public class FoodController {
 	@Autowired
 	FoodDao foodDao;
 	
+	Map<String,String> response=new HashMap<String,String>();
+	
+	@Secured({ "ROLE_MANAGER"})
 	@PostMapping("/addFood")
 	public ResponseEntity<Object> addFood(@Valid @RequestBody FoodDto foodDto){
 		
@@ -60,14 +64,15 @@ public class FoodController {
 		return new ResponseEntity<>("Food Added Successfully\n" + food, HttpStatus.OK);
 	}
 	
+	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@GetMapping("/getAllFood")
 	public ResponseEntity<Object> getAllFood(){
 		return new ResponseEntity<>(foodService.getAllFood(), HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_MANAGER"})
 	@PutMapping("/updateFood/{fid}")
-	public ResponseEntity<String> updateFood(@PathVariable int fid, @Valid @RequestBody FoodDto foodDto){
-		
+	public ResponseEntity<?> updateFood(@PathVariable int fid, @Valid @RequestBody FoodDto foodDto){
 		Food food = foodService.getFoodById(fid);
 		food.setFname(foodDto.getFname());
 		food.setFimage(foodDto.getFimage());
@@ -81,15 +86,23 @@ public class FoodController {
 		food.setCategory(category);
 		foodService.updateFood(food);
 		
-		return new ResponseEntity<>("Food updated", HttpStatus.OK);
+		response.put("msg", "Food Updated");
+		response.put("status", "200");
+		return new ResponseEntity<>(response ,HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_MANAGER"})
 	@DeleteMapping("/deleteFood/{id}")
 	public ResponseEntity<Object> deleteFood(@PathVariable int fid){
+		
 		foodService.deleteFood(fid);
-		return new ResponseEntity<>("Food Deleted", HttpStatus.OK);
+		
+		response.put("msg", "Food Deleted");
+		response.put("status", "200");
+		return new ResponseEntity<>(response ,HttpStatus.OK);
 	}
 	
+	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@GetMapping("/getFoodByCategory/{cid}")
 	public ResponseEntity<Object> findFoodByCategoryId(@PathVariable int cid){
 		
@@ -99,14 +112,16 @@ public class FoodController {
 		return new ResponseEntity<>(foodDao.findByCategory(category), HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_MANAGER"})
 	@PutMapping("/toggleFoodAvailability/{fid}")
-	public ResponseEntity<Object> toggleFoodAvailability(@PathVariable int fid){
+	public ResponseEntity<?> toggleFoodAvailability(@PathVariable int fid){
 		
 		Food food = foodService.getFoodById(fid);
 		food.setAvailable(!food.isAvailable());
 		foodService.updateFood(food);
 		
-		return new ResponseEntity<>("Food availability is toggled", HttpStatus.OK);
+		response.put("msg", "Food availability is toggled");
+		return new ResponseEntity<>(response ,HttpStatus.OK);
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -122,3 +137,4 @@ public class FoodController {
 	}
 	
 }
+

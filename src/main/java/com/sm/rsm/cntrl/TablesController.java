@@ -1,11 +1,13 @@
 package com.sm.rsm.cntrl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +24,14 @@ import jakarta.validation.Valid;
 
 @RestController
 public class TablesController {
+	Map<String,String> response = new HashMap<>();
 	
 	@Autowired
 	private TablesService tablesService;
 	
+	@Secured({ "ROLE_MANAGER"})
 	@PostMapping("/addTable")
-	public ResponseEntity<String> addTable(@Valid @RequestBody TablesDto tablesdto){
+	public ResponseEntity<?> addTable(@Valid @RequestBody TablesDto tablesdto){
 		
 		Tables tables = new Tables();
 		tables.setCapacity(tablesdto.getCapacity());
@@ -35,25 +39,31 @@ public class TablesController {
 		System.out.println(tables.toString());
 		tablesService.addTable(tables);
 		
-		return new ResponseEntity<>("Table added", HttpStatus.OK);
+		response.put("msg", "Table Added");
+		response.put("status", "200");
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
+	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@GetMapping("/getAllTables")
 	public ResponseEntity<List<Tables>> getAllTables(){
 		
 		return new ResponseEntity<>(tablesService.getAllTables(), HttpStatus.OK);
 	}
 	
+	@Secured({ "ROLE_MANAGER"})
 	@GetMapping("/removeTable/{id}")
-	public ResponseEntity<String> removeTable(@PathVariable int id){
+	public ResponseEntity<?> removeTable(@PathVariable int id){
 		
-		tablesService.deleteTable(id)
-;
-		return new ResponseEntity<>("Table removed",HttpStatus.OK);
+		tablesService.deleteTable(id);
+		response.put("msg", "Table Removed");
+		response.put("status", "200");
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
+	@Secured({ "ROLE_MANAGER"})
 	@PostMapping("/toggleTableStatus")
-	public ResponseEntity<String> toggleTableStatus(@RequestBody OrdersDto orderDto){
+	public ResponseEntity<?> toggleTableStatus(@RequestBody OrdersDto orderDto){
 		
 		List<Integer> tableIds = orderDto.getTableIds();
 		
@@ -78,16 +88,19 @@ public class TablesController {
 			
 			tablesService.updateTable(tables);
 		}
-		
-		return new ResponseEntity<>("Table status altered", HttpStatus.OK);
+		response.put("msg", "Table status altered");
+		response.put("status", "200");
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@GetMapping("/addToWaitingListForAnySittingTable/{id}/{capacity}")
-	public ResponseEntity<String> addToWaitingListForAnySittingTable(@PathVariable int id, @PathVariable int capacity){
+	public ResponseEntity<?> addToWaitingListForAnySittingTable(@PathVariable int id, @PathVariable int capacity){
 		
 		tablesService.addToWaitingListForAnySittingTable(id,capacity);
 		
-		return new ResponseEntity<>("Added user to a WQ", HttpStatus.OK);
+		response.put("msg", "Added user to a WQ");
+		response.put("status", "200");
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 //	@GetMapping("/addToWaitingListForFourSittingTable/{id}")
@@ -109,7 +122,7 @@ public class TablesController {
 //	}
 	
 
-	//will keep hitting this API to check if the user has got any table or not
+	//will keep hitting this API to check if the user has got any table or not----------------------------------------------------------------------------------
 	@GetMapping("/isAnyTableVacantNow/{id}")
 	public ResponseEntity<List<Integer>> isAnyTableVacantNow(@PathVariable int id){
 		
@@ -118,7 +131,7 @@ public class TablesController {
 		if(tableIds != null)
 			return new ResponseEntity<>(tableIds,HttpStatus.OK);
 		else
-			return new ResponseEntity<>(null,HttpStatus.OK);
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping("/getSurplusUsersList")
@@ -129,6 +142,6 @@ public class TablesController {
 		if(surplusUsers!=null)
 			return new ResponseEntity<>(surplusUsers,HttpStatus.OK);
 		else
-			return new ResponseEntity<>(null,HttpStatus.OK);
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
 	}
 }

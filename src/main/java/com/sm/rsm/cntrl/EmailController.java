@@ -1,13 +1,18 @@
+
 package com.sm.rsm.cntrl;
 //Java Program to Create Rest Controller that
 //Defines various API for Sending Mail
 
+
+import java.util.HashMap;
+import java.util.Map;
 
 //Importing required classes
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +28,7 @@ import jakarta.validation.Valid;
 //Class
 public class EmailController {
 	@Autowired private EmailService emailService;
+	Map<String,String> response=new HashMap<String,String>();
 
 	// Sending a simple Email
 	@PostMapping("/sendMail")
@@ -43,23 +49,35 @@ public class EmailController {
 
 		return status;
 	}
+	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@PostMapping("/forgetPassword")
-	public ResponseEntity<String> forgetPassword(@RequestBody EmailOtpDto emailOtpDto)
+	public ResponseEntity<?> forgetPassword(@RequestBody EmailOtpDto emailOtpDto)
 	{
-		if(emailService.sendForgetMail(emailOtpDto))
-			return new ResponseEntity<>("OTP Sent",HttpStatus.OK);
-		else
+		if(emailService.sendForgetMail(emailOtpDto)) {
+			response.put("msg", "OTP sent");
+			response.put("status", "200");
+			return new ResponseEntity<>(response ,HttpStatus.OK);
+		}
+		else {
+			response.put("msg", "Invalid OTP");
+			response.put("status", "400");
 			return new ResponseEntity<>("Invalid OTP",HttpStatus.BAD_REQUEST);
-			
+		}
 	}
+	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@PostMapping("/confirmOtp")
-	public ResponseEntity<String> confirmOtp(@Valid @RequestBody EmailOtpDto emailOtpDto)
+	public ResponseEntity<?> confirmOtp(@Valid @RequestBody EmailOtpDto emailOtpDto)
 	{
-		if(emailService.approveForgetOtp(emailOtpDto))
-			return new ResponseEntity<>("Create new Password",HttpStatus.OK);
-		else
-			return new ResponseEntity<>("Invalid OTP",HttpStatus.BAD_REQUEST);
-		
+		if(emailService.approveForgetOtp(emailOtpDto)) {
+			response.put("msg", "Create New Password");
+			response.put("status", "200");
+			return new ResponseEntity<>(response ,HttpStatus.OK);
+		}
+		else {
+			response.put("msg", "Invalid OTP");
+			response.put("status", "400");
+			return new ResponseEntity<>(response ,HttpStatus.OK);
+		}
 	}
 
 }
