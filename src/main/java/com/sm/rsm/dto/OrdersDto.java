@@ -26,8 +26,6 @@ public class OrdersDto {
     private List<Integer> foodids;
     
     private Map<Integer,Integer> foodItem;
-
-    private Map<Integer,Integer> foodItem;
     
     @Positive(message = "Total price must be a positive value")
     private double totalPrice;
