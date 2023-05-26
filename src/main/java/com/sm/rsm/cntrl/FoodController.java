@@ -50,6 +50,8 @@ public class FoodController {
 	@PostMapping("/addFood")
 	public ResponseEntity<Object> addFood(@Valid @RequestBody FoodDto foodDto){
 		
+		System.out.println(foodDto);
+		
 		Food food = new Food();
 		food.setFname(foodDto.getFname());
 		food.setFimage(foodDto.getFimage());

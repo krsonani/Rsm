@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,36 +26,28 @@ import com.sm.rsm.services.CategoryService;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = {"*"})
 public class CategoryController {
 	@Autowired
 	CategoryService categoryService;
 	
-	@Secured({"ROLE_MANAGER"})
-	@PostMapping("/addCategory")
-	public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryDto categoryDto)
+	@PostMapping("/manager/addCategory")
+	public ResponseEntity<String> addCategory(@Valid @RequestBody CategoryDto categoryDto)
 	{
-		Map<String,String> response=new HashMap<String,String>();
 		System.out.println("inside");
 		Category category= new Category();
 		category.setCname(categoryDto.getCname()) ;
 		System.out.println(category.toString());
 		categoryService.addCategory(category);
-		response.put("msg", "Category Added");
-		response.put("status", "200");
-		return new ResponseEntity<>(response ,HttpStatus.OK);
+		return new ResponseEntity<>("Category added",HttpStatus.OK);
 	}
 	
-	@Secured({ "ROLE_MANAGER"})
 	@DeleteMapping("/removeCategory/{id}")
-	public ResponseEntity<?> removeCategory(@PathVariable int id)
+	public ResponseEntity<String> removeCategory(@PathVariable int id)
 	{
-		Map<String,String> response=new HashMap<String,String>();
-		response.put("msg", "Category Deleted");
 		categoryService.deleteCategory(id);
-		response.put("status", "200");
-		return new ResponseEntity<>(response ,HttpStatus.OK);
+		return new ResponseEntity<>("Category Removed",HttpStatus.OK);
 	}
-	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@GetMapping("/getAllCategory")
 	public ResponseEntity<List<Category>> getAllCategory()
 	{
@@ -74,7 +66,3 @@ public class CategoryController {
 	    return errors;
 	}
 }
-
-
-
-
