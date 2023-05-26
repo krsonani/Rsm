@@ -127,12 +127,15 @@ public class UsersController {
 	}
 	@Secured({ "ROLE_CUSTOMER" })
 	@PutMapping(value= {"/updateUser"})
-	public String updateUser(@RequestBody Users user)
+	public Map<String,String> updateUser(@RequestBody Users users)
 	{
-		user.setPassword(encorder.encode(user.getPassword()));
-		System.out.println(user);
+		Map<String,String> map = new HashMap<>();
+		Users user = userservice.getUsers(users.getUids());
+		user.setName(users.getName());
+		user.setPhoneNum(users.getPhoneNum());
 		userservice.updateUsers(user);
-		return "success";
+		map.put("response", "success");
+		return map;
 	}
 	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
 	@PostMapping(value= {"/getUser"})
