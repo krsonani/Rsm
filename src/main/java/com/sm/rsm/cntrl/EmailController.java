@@ -49,7 +49,7 @@ public class EmailController {
 
 		return status;
 	}
-	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
+	
 	@PostMapping("/forgetPassword")
 	public ResponseEntity<?> forgetPassword(@RequestBody EmailOtpDto emailOtpDto)
 	{
@@ -64,7 +64,7 @@ public class EmailController {
 			return new ResponseEntity<>("Invalid OTP",HttpStatus.BAD_REQUEST);
 		}
 	}
-	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
+
 	@PostMapping("/confirmOtp")
 	public ResponseEntity<?> confirmOtp(@Valid @RequestBody EmailOtpDto emailOtpDto)
 	{

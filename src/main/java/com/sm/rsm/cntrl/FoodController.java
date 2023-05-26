@@ -57,7 +57,6 @@ public class FoodController {
 		food.setFimage(foodDto.getFimage());
 		food.setDescription(foodDto.getDescription());
 		food.setPrice(foodDto.getPrice());
-		food.setPrice(foodDto.getPrice());
 		food.setAvailable(true);
 		
 		Category category = categoryService.getCategoryById(foodDto.getCategoryId());
