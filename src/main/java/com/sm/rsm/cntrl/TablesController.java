@@ -45,7 +45,7 @@ public class TablesController {
 			System.out.println(tables.toString());
 			tablesService.addTable(tables);
 		}
-		return new ResponseEntity<>("Table added", HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
@@ -65,11 +65,11 @@ public class TablesController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	@Secured({ "ROLE_MANAGER"})
+//	@Secured({ "ROLE_MANAGER"})
 	@PostMapping("/toggleTableStatus")
-	public ResponseEntity<?> toggleTableStatus(@RequestBody OrdersDto orderDto){
+	public ResponseEntity<?> toggleTableStatus(@RequestBody List<Integer> tableIds){
 		
-		List<Integer> tableIds = orderDto.getTableIds();
+//		List<Integer> tableIds = orderDto.getTableIds();
 		
 		for(Integer id : tableIds) {
 			Tables tables = tablesService.getTableById(id);

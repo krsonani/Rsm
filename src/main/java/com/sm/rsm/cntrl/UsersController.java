@@ -134,7 +134,7 @@ public class UsersController {
 		userservice.updateUsers(user);
 		return "success";
 	}
-	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
+	
 	@PostMapping(value= {"/getUser"})
 	public ResponseEntity<?> getUserDetails(@RequestBody Users user) 
 	{
