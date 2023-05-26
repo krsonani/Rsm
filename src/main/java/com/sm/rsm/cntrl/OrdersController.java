@@ -11,11 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sm.rsm.dto.OrdersDto;
@@ -44,8 +48,10 @@ public class OrdersController {
 	
 	
 	@PostMapping("/addOrder")
-	public ResponseEntity<String> addOrder(@Valid @RequestBody OrdersDto ordersDto)
+	public ResponseEntity<Map<String,String>> addOrder(@Valid @RequestBody OrdersDto ordersDto)
 	{
+		Map<String,String> response = new HashMap<>();
+		
 		Orders orders= new Orders();
 		
 		Users users= new Users();
@@ -83,7 +89,8 @@ public class OrdersController {
 		System.out.println(orders);
 		
 		orderService.addOrders(orders);
-		return new ResponseEntity<String>("Order added",HttpStatus.OK);
+		response.put("response", "Order added");
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	
 	@GetMapping("/getOrderByUserId/{id}")
@@ -96,6 +103,18 @@ public class OrdersController {
 	public ResponseEntity<List<Orders>> getOrderByCurrentDate()
 	{	
 		return new ResponseEntity<>(orderService.getOrdersByDates(LocalDate.now().toString()),HttpStatus.OK);
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> onMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+	    Map<String, String> errors = new HashMap<>();
+	    ex.getBindingResult().getAllErrors().forEach((error) -> {
+	        String fieldName = ((FieldError) error).getField();
+	        String errorMessage = error.getDefaultMessage();
+	        errors.put(fieldName, errorMessage);
+	    });
+	    return errors;
 	}
 	
 }
