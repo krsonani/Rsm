@@ -10,5 +10,3 @@ public class RsmApplication {
 		SpringApplication.run(RsmApplication.class, args);
 	}
 }
-
-
