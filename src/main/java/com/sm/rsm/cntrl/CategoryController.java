@@ -31,23 +31,36 @@ public class CategoryController {
 	@Autowired
 	CategoryService categoryService;
 	
-	@PostMapping("/manager/addCategory")
-	public ResponseEntity<String> addCategory(@Valid @RequestBody CategoryDto categoryDto)
+	Map<String,String> response=new HashMap<String,String>();
+	
+	//@PostMapping("/manager/addCategory")
+	@PostMapping("/addCategory")	//for only testing purpose, need to remove it later
+	public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryDto categoryDto)
 	{
 		System.out.println("inside");
 		Category category= new Category();
 		category.setCname(categoryDto.getCname()) ;
 		System.out.println(category.toString());
 		categoryService.addCategory(category);
-		return new ResponseEntity<>("Category added",HttpStatus.OK);
+		
+		response.put("msg", "Category Updated");
+		response.put("status", "200");
+		
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/removeCategory/{id}")
-	public ResponseEntity<String> removeCategory(@PathVariable int id)
+	public ResponseEntity<?> removeCategory(@PathVariable int id)
 	{
 		categoryService.deleteCategory(id);
-		return new ResponseEntity<>("Category Removed",HttpStatus.OK);
+		
+		response.put("msg", "Category Deleted");
+		response.put("status", "200");
+		
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
+	
+	
 	@GetMapping("/getAllCategory")
 	public ResponseEntity<List<Category>> getAllCategory()
 	{

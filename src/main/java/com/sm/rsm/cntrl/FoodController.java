@@ -46,9 +46,9 @@ public class FoodController {
 	
 	Map<String,String> response=new HashMap<String,String>();
 	
-	@Secured({ "ROLE_MANAGER"})
+	//@Secured({ "ROLE_MANAGER"}) //commented for testing purpose
 	@PostMapping("/addFood")
-	public ResponseEntity<Object> addFood(@Valid @RequestBody FoodDto foodDto){
+	public ResponseEntity<?> addFood(@Valid @RequestBody FoodDto foodDto){
 		
 		System.out.println(foodDto);
 		
@@ -64,10 +64,13 @@ public class FoodController {
 		food.setCategory(category);
 		foodService.addFood(food);
 		
-		return new ResponseEntity<>("Food Added Successfully\n" + food, HttpStatus.OK);
+		response.put("msg", "Food Added");
+		response.put("status", "200");
+		
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
+	//@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"}) //commented for testing purpose
 	@GetMapping("/getAllFood")
 	public ResponseEntity<Object> getAllFood(){
 		return new ResponseEntity<>(foodService.getAllFood(), HttpStatus.OK);
