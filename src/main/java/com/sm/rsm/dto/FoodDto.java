@@ -28,6 +28,4 @@ public class FoodDto {
 	
 	private int categoryId;
 	
-	
-	
 }
