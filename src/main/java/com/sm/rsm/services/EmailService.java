@@ -21,9 +21,9 @@ public interface EmailService {
  // To send an email with attachment
  String sendMailWithAttachment(EmailDetails details);
 
-boolean sendForgetMail(EmailOtpDto emilOtpDto);
+boolean sendForgetMail(String email);
 
-boolean approveForgetOtp(@Valid EmailOtpDto emailOtpDto);
+boolean approveForgetOtp(@Valid UsersDto usersDto);
 
 boolean sendNewMail(String email);
 

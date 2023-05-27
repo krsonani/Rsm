@@ -66,5 +66,11 @@ public class UsersServiceImpl implements UsersService {
 		return userDao.existsByEmail(email);
 	}
 
+	@Override
+	public Users fetchUsersById(int id) {
+		
+		return userDao.findById(id).get();
+	}
+
 
 }

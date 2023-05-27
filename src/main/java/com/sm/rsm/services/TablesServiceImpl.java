@@ -71,7 +71,7 @@ public class TablesServiceImpl implements TablesService {
 		else
 			waitingListForSurplusUsers.put(usersDao.getReferenceById(id)
 , capacity);
-			
+			System.out.println(waitingListForSurplusUsers);
 	}
 
 //	@Override
@@ -153,5 +153,14 @@ public class TablesServiceImpl implements TablesService {
 		System.out.println(waitingListForEightSittingTable);
 		System.out.println(userAutoAssignedTableId);
 		System.out.println(waitingListForSurplusUsers);
+	}
+
+	@Override
+	public void removeSurplusUserFromList(int uids,List<Integer> tableIds) {
+		waitingListForSurplusUsers.remove(usersDao.getReferenceById(uids));
+		userAutoAssignedTableId.put(uids, tableIds);
+		System.out.println("-------------------Removed------------------------------");
+		System.out.println(waitingListForSurplusUsers);
+		System.out.println(userAutoAssignedTableId);
 	}	
 }
