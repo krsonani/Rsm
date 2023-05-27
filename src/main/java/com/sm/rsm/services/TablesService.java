@@ -23,5 +23,9 @@ public interface TablesService {
 	void displayAllStaticVariables();
 	Map<Users,Integer> getAllSurplusUsers();
 	void assigningWaitingUserToTable(int userId, int tableId);
+
+	int getUserWaitingQueueCount(int id);
+
 	void removeSurplusUserFromList(int uids,List<Integer> tableIds);
+
 }

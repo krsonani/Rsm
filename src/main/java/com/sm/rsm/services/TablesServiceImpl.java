@@ -141,6 +141,20 @@ public class TablesServiceImpl implements TablesService {
 		return null;
 	}
 	
+	@Override
+	public int getUserWaitingQueueCount(int id) {
+		
+		if(waitingListForTwoSittingTable.contains(id)) {
+			return waitingListForTwoSittingTable.size();
+		}
+		else if(waitingListForFourSittingTable.contains(id)) {
+			return waitingListForFourSittingTable.size();
+		}
+		else
+			return waitingListForEightSittingTable.size();
+	}
+	
+	@Override
 	public Map<Users,Integer> getAllSurplusUsers(){
 		
 		return waitingListForSurplusUsers;
