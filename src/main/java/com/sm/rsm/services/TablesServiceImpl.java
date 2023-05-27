@@ -1,6 +1,7 @@
 package com.sm.rsm.services;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -145,13 +146,28 @@ public class TablesServiceImpl implements TablesService {
 	public int getUserWaitingQueueCount(int id) {
 		
 		if(waitingListForTwoSittingTable.contains(id)) {
-			return waitingListForTwoSittingTable.size();
+			
+			return positionInWaitingQueue(waitingListForTwoSittingTable, id);
 		}
 		else if(waitingListForFourSittingTable.contains(id)) {
-			return waitingListForFourSittingTable.size();
+			return positionInWaitingQueue(waitingListForFourSittingTable, id);
 		}
 		else
-			return waitingListForEightSittingTable.size();
+			return positionInWaitingQueue(waitingListForEightSittingTable, id);
+	}
+	
+	public int positionInWaitingQueue(Queue<Integer> q, int id) {
+		
+		Iterator<Integer> it = q.iterator();
+		int position = 1;
+		
+		while(it.hasNext()) {
+			if(it.next()==id)
+				break;
+			else
+				position++;
+		}
+		return position;
 	}
 	
 	@Override
