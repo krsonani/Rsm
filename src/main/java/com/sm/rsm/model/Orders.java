@@ -43,4 +43,5 @@ public class Orders {
 
 	private double totalPrice;
 	private String dates;
+	private boolean isBillGenerated;
 }

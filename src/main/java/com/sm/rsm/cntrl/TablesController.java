@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sm.rsm.dto.OrdersDto;
@@ -46,7 +50,7 @@ public class TablesController {
 			System.out.println(tables.toString());
 			tablesService.addTable(tables);
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>("Table added Successfully",HttpStatus.OK);
 	}
 	
 	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
@@ -187,5 +191,17 @@ public class TablesController {
 		response.put("msg", "Table status altered");
 		response.put("status", "200");
 		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> onMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+	    Map<String, String> errors = new HashMap<>();
+	    ex.getBindingResult().getAllErrors().forEach((error) -> {
+	        String fieldName = ((FieldError) error).getField();
+	        String errorMessage = error.getDefaultMessage();
+	        errors.put(fieldName, errorMessage);
+	    });
+	    return errors;
 	}
 }
