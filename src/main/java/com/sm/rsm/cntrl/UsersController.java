@@ -211,13 +211,15 @@ public class UsersController {
 	
 	@Secured("ROLE_CUSTOMER")
 	@GetMapping(value= {"/checkEmailIsRegisteredOrNot/{email}"})
-	public String checkEmailAvailability(@PathVariable String email) {
+	public ResponseEntity<?> checkEmailAvailability(@PathVariable String email) {
 		
 		if(userservice.existsByEmail(email) == true) {
 			
-			return "found";
+			response.put("msg", "found");
+			return new ResponseEntity<>(response,HttpStatus.OK);
 		}
-		return "not found";
+		response.put("msg", "not found");
+		return  new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
 		
 	}
 	
