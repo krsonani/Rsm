@@ -110,16 +110,16 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public boolean sendForgetMail(EmailOtpDto emilOtpDto) {
-		if(userService.existsByEmail(emilOtpDto.getEmail()))
+	public boolean sendForgetMail(String email) {
+		if(userService.existsByEmail(email))
 		{
 			EmailDetails details = new EmailDetails();
-			details.setRecipient(emilOtpDto.getEmail());
+			details.setRecipient(email);
 			String otp=getRandomNumberString();
 			details.setMsgBody(otp);
 			details.setSubject("Confirm OTP:");
 			sendSimpleMail(details);
-			emailOtpMap.put(emilOtpDto.getEmail(), otp);
+			emailOtpMap.put(email, otp);
 			return true;
 		}
 		else
@@ -136,10 +136,10 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public boolean approveForgetOtp(@Valid EmailOtpDto emailOtpDto) {
-		if(emailOtpMap.get(emailOtpDto.getEmail()).equals(emailOtpDto.getOtp()))
+	public boolean approveForgetOtp(@Valid UsersDto usersDto) {
+		if(emailOtpMap.get(usersDto.getEmail()).equals(usersDto.getOtp()))
 		{
-			emailOtpMap.remove(emailOtpDto.getEmail());
+			emailOtpMap.remove(usersDto.getEmail());
 			return true;
 		}
 		else 
