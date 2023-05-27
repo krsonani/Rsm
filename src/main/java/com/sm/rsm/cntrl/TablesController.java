@@ -128,14 +128,27 @@ public class TablesController {
 
 	//will keep hitting this API to check if the user has got any table or not----------------------------------------------------------------------------------
 	@GetMapping("/isAnyTableVacantNow/{id}")
-	public ResponseEntity<List<Integer>> isAnyTableVacantNow(@PathVariable int id){
+	public ResponseEntity<?> isAnyTableVacantNow(@PathVariable int id){
+		
+		System.out.println("i am being hit by frontend.");
 		
 		List<Integer> tableIds = tablesService.autoAssignedTableId(id);
 		
-		if(tableIds != null)
-			return new ResponseEntity<>(tableIds,HttpStatus.OK);
-		else
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		Map<String, List<Integer>> temp = new HashMap<>();
+		
+		if(tableIds != null) {
+			
+			temp.put("Table found", tableIds);
+			return new ResponseEntity<>(temp,HttpStatus.OK);
+		}
+		else {
+			
+			//to get the waiting queue count for each table
+			tableIds.add(tablesService.getUserWaitingQueueCount(id));
+			
+			temp.put("Table not found", tableIds );
+			return new ResponseEntity<>(temp,HttpStatus.OK);
+		}
 	}
 	
 	@GetMapping("/getSurplusUsersList")
