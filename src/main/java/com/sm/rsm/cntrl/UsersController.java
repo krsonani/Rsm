@@ -233,6 +233,23 @@ public class UsersController {
 	    return errors;
 	}
 	
+	@PutMapping("/updateForgetPasswordUser")
+	public Map<String,String> updateForgetPasswordUser(@RequestBody UsersDto usersDto)
+	{
+		Users user= userservice.getUsersByEmail(usersDto.getEmail());
+		user.setPassword( encorder.encode(usersDto.getPassword()) );
+		Map<String,String> map = new HashMap<>();
+		userservice.updateUsers(user);
+		response.put("msg", "User Updated");
+		response.put("status", "200");
+		return map;
+	}
+	
+	@GetMapping("/getUserById/{id}")
+	public Users getUsersById(@PathVariable int id)
+	{
+		return userservice.fetchUsersById(id);
+	}
 	
 
 }

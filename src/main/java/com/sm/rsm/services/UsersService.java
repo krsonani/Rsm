@@ -15,4 +15,5 @@ public interface UsersService {
 	void updateUsers(Users user);
 	Users getUsersByEmail(String email);
 	boolean existsByEmail(String email);
+	Users fetchUsersById(int id);
 }

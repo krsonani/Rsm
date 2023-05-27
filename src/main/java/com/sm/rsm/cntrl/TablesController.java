@@ -71,6 +71,7 @@ public class TablesController {
 	public ResponseEntity<?> toggleTableStatus(@RequestBody List<Integer> tableIds){
 		
 //		List<Integer> tableIds = orderDto.getTableIds();
+		System.out.println(tableIds);
 		
 		for(Integer id : tableIds) {
 			Tables tables = tablesService.getTableById(id);
@@ -92,6 +93,7 @@ public class TablesController {
 			tablesService.displayAllStaticVariables();
 			
 			tablesService.updateTable(tables);
+			System.out.println(tables);
 		}
 		response.put("msg", "Table status altered");
 		response.put("status", "200");
@@ -154,13 +156,36 @@ public class TablesController {
 	}
 	
 	@GetMapping("/getSurplusUsersList")
-	public ResponseEntity<Map<Users,Integer>> getSurplusUsersList(){
+	public Map<Integer,Integer> getSurplusUsersList(){
 		
 		Map<Users,Integer> surplusUsers = tablesService.getAllSurplusUsers();
+		Map<Integer,Integer> map = new HashMap<>();
 		
-		if(surplusUsers!=null)
-			return new ResponseEntity<>(surplusUsers,HttpStatus.OK);
+		for(Map.Entry<Users, Integer> entry : surplusUsers.entrySet()) {
+			map.put(entry.getKey().getUids(),entry.getValue());
+		}
+		
+		System.out.println("Hii"+map.toString());
+		if(map.size()!=0)
+			return map;
 		else
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			return map;
+	}
+	
+	@PostMapping("/handleTable/{uids}")
+	public ResponseEntity<?> handleTable(@RequestBody List<Integer> tableIds, @PathVariable int uids)
+	{
+		System.out.println("UID :"+uids);
+		System.out.println("TableIds :"+tableIds.toString());
+		for(Integer tableId : tableIds)
+		{
+			Tables table=tablesService.getTableById(tableId);
+			table.setAvailable(false);
+			tablesService.updateTable(table);
+		}
+		tablesService.removeSurplusUserFromList(uids,tableIds);
+		response.put("msg", "Table status altered");
+		response.put("status", "200");
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }
