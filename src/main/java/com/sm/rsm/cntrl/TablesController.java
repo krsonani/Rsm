@@ -1,5 +1,6 @@
 package com.sm.rsm.cntrl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,6 +145,7 @@ public class TablesController {
 		else {
 			
 			//to get the waiting queue count for each table
+			tableIds = new ArrayList<>();
 			tableIds.add(tablesService.getUserWaitingQueueCount(id));
 			
 			temp.put("Table not found", tableIds );
