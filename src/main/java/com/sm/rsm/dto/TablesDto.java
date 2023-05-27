@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TablesDto {
    
-	@Min(value=1, message = "quantity muse be greater then zero")
+	@Min(value=1, message = "quantity must be greater then zero")
 	private int quantity;
 	
 	@Min(value = 2, message = "Capacity must be a positive value")

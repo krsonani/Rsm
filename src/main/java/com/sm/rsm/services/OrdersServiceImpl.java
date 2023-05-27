@@ -47,4 +47,9 @@ public class OrdersServiceImpl implements OrdersService {
 		return ordersDao.findByDates(date);
 	}
 
+	@Override
+	public List<Orders> findByUserAndIsBillGenerated(Users user, boolean status) {
+		return ordersDao.findByUserAndIsBillGenerated(user, status).get();
+	}
+
 }

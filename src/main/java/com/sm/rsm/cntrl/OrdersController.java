@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -103,6 +104,27 @@ public class OrdersController {
 	public ResponseEntity<List<Orders>> getOrderByCurrentDate()
 	{	
 		return new ResponseEntity<>(orderService.getOrdersByDates(LocalDate.now().toString()),HttpStatus.OK);
+	}
+	
+	@GetMapping("/updateBillStatus/{uids}")
+	public ResponseEntity<Map<String,String>> updateBillStatus(@PathVariable int uids)
+	{
+		System.out.println("hitting api");
+		
+		Map<String,String> response = new HashMap<>();
+		
+		Users users = userService.getUsers(uids);
+		
+		List<Orders> orders = orderService.findByUserAndIsBillGenerated(users, false);
+		for(int i=0; i<orders.size(); i++) {
+			Orders order = orders.get(i);
+			order.setBillGenerated(true);
+			System.out.println(order);
+			orderService.addOrders(order);
+		}
+		
+		response.put("response", "Payment Done Bill Status updated");
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
