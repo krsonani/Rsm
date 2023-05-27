@@ -50,7 +50,9 @@ public class TablesController {
 			System.out.println(tables.toString());
 			tablesService.addTable(tables);
 		}
-		return new ResponseEntity<>("Table added Successfully",HttpStatus.OK);
+		response.put("msg", "Table Added");
+		response.put("status", "200");
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
