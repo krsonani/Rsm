@@ -43,4 +43,14 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDao.findById(id).get();
 	}
 
+	@Override
+	public boolean getCategoryExistanceByName(String name) {
+		Optional<Category> op= categoryDao.findByCname(name);
+		if(op.get()==null)
+		{
+			return false;
+		}
+		return true;
+	}
+
 }
