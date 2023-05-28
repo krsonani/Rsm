@@ -46,11 +46,12 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public boolean getCategoryExistanceByName(String name) {
 		Optional<Category> op= categoryDao.findByCname(name);
-		if(op.get()==null)
+		
+		if(op.isPresent())
 		{
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 }
