@@ -43,12 +43,12 @@ public class CategoryController {
 		System.out.println(category.toString());
 		if(categoryService.getCategoryExistanceByName(categoryDto.getCname()))
 			{
-					response.put("msg", "Category is alreay exist");
+					response.put("msg", "Category already exists!");
 					return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);  
 			}else
 			{
 					categoryService.addCategory(category);
-					response.put("msg", "Category Updated");
+					response.put("msg", "Category Added");
 					response.put("status", "200");
 					return new ResponseEntity<>(response,HttpStatus.OK);
 			}
