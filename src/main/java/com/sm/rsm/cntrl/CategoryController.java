@@ -41,12 +41,18 @@ public class CategoryController {
 		Category category= new Category();
 		category.setCname(categoryDto.getCname()) ;
 		System.out.println(category.toString());
-		categoryService.addCategory(category);
-		
-		response.put("msg", "Category Updated");
-		response.put("status", "200");
-		
-		return new ResponseEntity<>(response,HttpStatus.OK);
+		if(categoryService.getCategoryExistanceByName(categoryDto.getCname()))
+			{
+					response.put("msg", "Category is alreay exist");
+					return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);  
+			}else
+			{
+					categoryService.addCategory(category);
+					response.put("msg", "Category Updated");
+					response.put("status", "200");
+					return new ResponseEntity<>(response,HttpStatus.OK);
+			}
+
 	}
 	
 	@DeleteMapping("/removeCategory/{id}")

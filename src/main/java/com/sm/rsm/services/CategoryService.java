@@ -11,5 +11,6 @@ public interface CategoryService {
 	public Category updateCategory(Category category);
 	public List<Category> getAllCategory();
 	public Category getCategoryById(int id);
+	public boolean getCategoryExistanceByName(String name);
 	
 }
