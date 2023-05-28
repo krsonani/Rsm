@@ -53,6 +53,8 @@ public class FoodController {
 		System.out.println(foodDto);
 		
 		Food food = new Food();
+		food.setFid(foodDto.getFid());
+		
 		food.setFname(foodDto.getFname());
 		food.setFimage(foodDto.getFimage());
 		food.setDescription(foodDto.getDescription());
