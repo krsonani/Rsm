@@ -53,14 +53,20 @@ public class FoodController {
 		System.out.println(foodDto);
 		
 		Food food = new Food();
-		food.setFid(foodDto.getFid());
+		
+		if(foodDto.getFid()!=0) {
+			
+			food.setFid(foodDto.getFid());
+			food.setAvailable( foodService.getFoodById(foodDto.getFid()).isAvailable());
+		}
+		else {
+			food.setAvailable(true);
+		}
 		
 		food.setFname(foodDto.getFname());
 		food.setFimage(foodDto.getFimage());
 		food.setDescription(foodDto.getDescription());
 		food.setPrice(foodDto.getPrice());
-		food.setAvailable(true);
-		
 		Category category = categoryService.getCategoryById(foodDto.getCategoryId());
 		
 		food.setCategory(category);
