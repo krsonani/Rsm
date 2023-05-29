@@ -40,7 +40,6 @@ public class TablesController {
 	@PostMapping("/addTable")
 	public ResponseEntity<?> addTable(@Valid @RequestBody TablesDto tablesdto){
 		
-
 		for(int i=0;i<tablesdto.getQuantity();i++)
 		{
 			
