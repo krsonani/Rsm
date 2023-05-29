@@ -122,7 +122,7 @@ public class UsersController {
 			userservice.addUsers(user,userD);
 			response.put("msg", "Manager Registered");
 			response.put("status", "200");
-			return new ResponseEntity<>(response ,HttpStatus.OK);
+			return new ResponseEntity<>(response ,HttpStatus.BAD_REQUEST);
 		}
 	}
 	@Secured({ "ROLE_CUSTOMER" })
@@ -247,10 +247,12 @@ public class UsersController {
 		return map;
 	}
 	
+	@Secured({ "ROLE_MANAGER"})
 	@GetMapping("/getUserById/{id}")
 	public Users getUsersById(@PathVariable int id)
 	{
-		return userservice.fetchUsersById(id);
+		return userservice.fetchUsersById(id)
+;
 	}
 	
 

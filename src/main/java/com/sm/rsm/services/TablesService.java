@@ -14,7 +14,7 @@ public interface TablesService {
 	List<Tables> getAllTables();
 	Tables getTableById(int id);
 	
-	void addToWaitingListForAnySittingTable(int id, int capacity);
+	boolean addToWaitingListForAnySittingTable(int id, int capacity);
 //	void addToWaitingListForFourSittingTable(int id);
 //	void addToWaitingListForEightSittingTable(int id);
 	

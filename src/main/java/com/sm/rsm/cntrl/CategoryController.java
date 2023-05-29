@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,8 +34,8 @@ public class CategoryController {
 	
 	Map<String,String> response=new HashMap<String,String>();
 	
-	//@PostMapping("/manager/addCategory")
-	@PostMapping("/addCategory")	//for only testing purpose, need to remove it later
+	@Secured({ "ROLE_MANAGER"})
+	@PostMapping("/addCategory")	
 	public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryDto categoryDto)
 	{
 		System.out.println("inside");
@@ -55,18 +56,7 @@ public class CategoryController {
 
 	}
 	
-	@DeleteMapping("/removeCategory/{id}")
-	public ResponseEntity<?> removeCategory(@PathVariable int id)
-	{
-		categoryService.deleteCategory(id);
-		
-		response.put("msg", "Category Deleted");
-		response.put("status", "200");
-		
-		return new ResponseEntity<>(response,HttpStatus.OK);
-	}
-	
-	
+	@Secured({ "ROLE_MANAGER","ROLE_CUSTOMER"})
 	@GetMapping("/getAllCategory")
 	public ResponseEntity<List<Category>> getAllCategory()
 	{
