@@ -51,6 +51,9 @@ public class OrdersController {
 	@PostMapping("/addOrder")
 	public ResponseEntity<Map<String,String>> addOrder(@Valid @RequestBody OrdersDto ordersDto)
 	{
+		System.out.println("--------------------------------");
+		System.out.println(ordersDto);
+		System.out.println("--------------------------------");
 		Map<String,String> response = new HashMap<>();
 		
 		Orders orders= new Orders();
@@ -87,9 +90,12 @@ public class OrdersController {
 		
 		orders.setDates( LocalDate.now().toString() );
 		
-		System.out.println(orders);
 		
 		orderService.addOrders(orders);
+		System.out.println("--------------------------------");
+		orderService.getAllOrders().forEach(e -> System.out.println(e));
+		System.out.println("--------------------------------");
+		System.out.println(orders);
 		response.put("response", "Order added");
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}

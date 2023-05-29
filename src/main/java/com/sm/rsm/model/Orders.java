@@ -7,6 +7,7 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,10 +36,10 @@ public class Orders {
 	private Users user;
 	@ManyToMany
 	private List<Tables> table;
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Food> foodList;
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private Map<Integer,Integer> foodMap;
 
 	private double totalPrice;
