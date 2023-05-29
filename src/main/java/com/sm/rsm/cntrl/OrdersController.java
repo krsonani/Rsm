@@ -70,8 +70,6 @@ public class OrdersController {
 			table.setTid(tableid);
 			list.add(table);
 		}
-		orders.setTable(list);
-		
 		Map<Integer,Integer> foodItems=ordersDto.getFoodItem();
 		Map<Integer,Integer> map= new LinkedHashMap<>();
 		List<Food> foodList = new ArrayList<>();
