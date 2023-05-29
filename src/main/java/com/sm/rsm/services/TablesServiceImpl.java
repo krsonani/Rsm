@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -152,8 +153,11 @@ public class TablesServiceImpl implements TablesService {
 		else if(waitingListForFourSittingTable.contains(id)) {
 			return positionInWaitingQueue(waitingListForFourSittingTable, id);
 		}
-		else
+		else if(waitingListForEightSittingTable.contains(id)){
 			return positionInWaitingQueue(waitingListForEightSittingTable, id);
+		}
+		else
+			return positionInSurplusWaitingQueue(waitingListForSurplusUsers, id);
 	}
 	
 	public int positionInWaitingQueue(Queue<Integer> q, int id) {
@@ -167,6 +171,22 @@ public class TablesServiceImpl implements TablesService {
 			else
 				position++;
 		}
+		return position;
+	}
+	
+	public int positionInSurplusWaitingQueue(Map<Users, Integer> map, int id) {
+		
+		int position = 1;
+		Set<Map.Entry<Users,Integer>> set = map.entrySet();
+		
+		for(Map.Entry<Users, Integer> item : set) {
+			
+			if(item.getKey().getUids() == id) 
+				return position;
+			else
+				position++;
+		}
+		
 		return position;
 	}
 	
