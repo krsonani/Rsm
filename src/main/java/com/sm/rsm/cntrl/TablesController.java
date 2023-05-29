@@ -36,7 +36,8 @@ public class TablesController {
 	@Autowired
 	private TablesService tablesService;
 	
-	@Secured({ "ROLE_MANAGER"})
+	
+	@Secured("ROLE_MANAGER")
 	@PostMapping("/addTable")
 	public ResponseEntity<?> addTable(@Valid @RequestBody TablesDto tablesdto){
 		

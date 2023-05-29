@@ -56,7 +56,6 @@ public class UsersController {
 	private AuthenticationManager authenticationManager;
 	Map<String,String> response=new HashMap<String,String>();
 	
-	@Secured({ "ROLE_CUSTOMER" })
 	@GetMapping("/verifyNewUser/{email}")
 	public ResponseEntity<?> verifyNewUser(@PathVariable String email)
 	{
@@ -71,7 +70,7 @@ public class UsersController {
 			return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
 		}
 	}
-	@Secured({ "ROLE_CUSTOMER" })
+
 	@PostMapping("/verifyNewUserOtp")
 	public ResponseEntity<?> verifyNewUserOtp(@RequestBody UsersDto userD)
 	{	
@@ -106,13 +105,13 @@ public class UsersController {
 		return "success";	
 
 	}
-	@Secured({ "ROLE_MANAGER" })
+	@Secured("ROLE_MANAGER" )
 	@PostMapping(value= {"/addManager"})
 	public ResponseEntity<?> addManager(@Valid @RequestBody UsersDto userD)
 	{ 	
 		
 		if(userservice.existsByEmail(userD.getEmail()))
-			return new ResponseEntity<>(response ,HttpStatus.OK);
+			return new ResponseEntity<>(response ,HttpStatus.BAD_REQUEST);
 		else
 		{	
 			Users user = new Users();
@@ -122,10 +121,10 @@ public class UsersController {
 			userservice.addUsers(user,userD);
 			response.put("msg", "Manager Registered");
 			response.put("status", "200");
-			return new ResponseEntity<>(response ,HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(response ,HttpStatus.OK);
 		}
 	}
-	@Secured({ "ROLE_CUSTOMER" })
+	@Secured({ "ROLE_CUSTOMER", "ROLE_MANAGER" })
 	@PutMapping(value= {"/updateUser"})
 	public Map<String,String> updateUser(@RequestBody Users users)
 	{

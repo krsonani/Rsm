@@ -46,7 +46,7 @@ public class FoodController {
 	
 	Map<String,String> response=new HashMap<String,String>();
 	
-	@Secured({ "ROLE_MANAGER"})
+    @Secured("ROLE_MANAGER")
 	@PostMapping("/addFood")
 	public ResponseEntity<?> addFood(@Valid @RequestBody FoodDto foodDto){
 		
@@ -78,7 +78,7 @@ public class FoodController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"}) 
+	@Secured({ "ROLE_CUSTOMER" ,"ROLE_MANAGER"}) 
 	@GetMapping("/getAllFood")
 	public ResponseEntity<Object> getAllFood(){
 		return new ResponseEntity<>(foodService.getAllFood(), HttpStatus.OK);
@@ -105,29 +105,8 @@ public class FoodController {
 		return new ResponseEntity<>(response ,HttpStatus.OK);
 	}
 	
-	@Secured({"ROLE_MANAGER"})
-	@DeleteMapping("/deleteFood/{id}")
-	public ResponseEntity<Object> deleteFood(@PathVariable int fid){
-		
-		foodService.deleteFood(fid);
-		
-		response.put("msg", "Food Deleted");
-		response.put("status", "200");
-		return new ResponseEntity<>(response ,HttpStatus.OK);
-	}
-	
-	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"})
-	@GetMapping("/getFoodByCategory/{cid}")
-	public ResponseEntity<Object> findFoodByCategoryId(@PathVariable int cid){
-		
-		Category category = new Category();
-		category.setCid(cid);
-		
-		return new ResponseEntity<>(foodDao.findByCategory(category), HttpStatus.OK);
-	}
-	
-	@Secured({"ROLE_MANAGER"})
-	@PutMapping("/toggleFoodAvailability/{fid}")
+	@Secured("ROLE_MANAGER")
+	@GetMapping("/toggleFoodAvailability/{fid}")
 	public ResponseEntity<?> toggleFoodAvailability(@PathVariable int fid){
 		
 		Food food = foodService.getFoodById(fid);
