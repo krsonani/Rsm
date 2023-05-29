@@ -46,7 +46,7 @@ public class FoodController {
 	
 	Map<String,String> response=new HashMap<String,String>();
 	
-	//@Secured({ "ROLE_MANAGER"}) //commented for testing purpose
+	@Secured({ "ROLE_MANAGER"})
 	@PostMapping("/addFood")
 	public ResponseEntity<?> addFood(@Valid @RequestBody FoodDto foodDto){
 		
@@ -78,7 +78,7 @@ public class FoodController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	//@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"}) //commented for testing purpose
+	@Secured({ "ROLE_CUSTOMER" , "ROLE_MANAGER"}) 
 	@GetMapping("/getAllFood")
 	public ResponseEntity<Object> getAllFood(){
 		return new ResponseEntity<>(foodService.getAllFood(), HttpStatus.OK);

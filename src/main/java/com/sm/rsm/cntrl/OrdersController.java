@@ -47,7 +47,7 @@ public class OrdersController {
 	@Autowired
 	FoodService foodService;
 	
-	
+	@Secured({"ROLE_CUSTOMER"})
 	@PostMapping("/addOrder")
 	public ResponseEntity<Map<String,String>> addOrder(@Valid @RequestBody OrdersDto ordersDto)
 	{
@@ -98,18 +98,22 @@ public class OrdersController {
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_CUSTOMER"})
 	@GetMapping("/getOrderByUserId/{id}")
 	public ResponseEntity<List<Orders>> getOrderByUserId(@PathVariable int id)
 	{
 		
 		return new ResponseEntity<>(orderService.getOrdersByUserId(id),HttpStatus.OK);
 	}
+	
+	@Secured({ "ROLE_MANAGER"})
 	@GetMapping("/getOrderByCurrentDate")
 	public ResponseEntity<List<Orders>> getOrderByCurrentDate()
 	{	
 		return new ResponseEntity<>(orderService.getOrdersByDates(LocalDate.now().toString()),HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_CUSTOMER"})
 	@GetMapping("/updateBillStatus/{uids}")
 	public ResponseEntity<Map<String,String>> updateBillStatus(@PathVariable int uids)
 	{
@@ -131,6 +135,7 @@ public class OrdersController {
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_CUSTOMER"})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public Map<String, String> onMethodArgumentNotValidException(MethodArgumentNotValidException ex) {

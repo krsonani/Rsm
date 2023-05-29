@@ -247,10 +247,12 @@ public class UsersController {
 		return map;
 	}
 	
+	@Secured({ "ROLE_MANAGER"})
 	@GetMapping("/getUserById/{id}")
 	public Users getUsersById(@PathVariable int id)
 	{
-		return userservice.fetchUsersById(id);
+		return userservice.fetchUsersById(id)
+;
 	}
 	
 
