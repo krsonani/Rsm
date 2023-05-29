@@ -30,11 +30,7 @@ public class Orders {
 	@ManyToOne
 	@JoinColumn(name = "userid")
 	private Users user;
-<<<<<<< HEAD
 	@ManyToMany()
-=======
-	@ManyToMany
->>>>>>> 3c76efcbcf49f6481ab3a9f8d004c3501264ef5d
 	private List<Food> foodList;
 	
 	@ElementCollection(fetch = FetchType.EAGER)

@@ -122,7 +122,7 @@ public class UsersController {
 			userservice.addUsers(user,userD);
 			response.put("msg", "Manager Registered");
 			response.put("status", "200");
-			return new ResponseEntity<>(response ,HttpStatus.OK);
+			return new ResponseEntity<>(response ,HttpStatus.BAD_REQUEST);
 		}
 	}
 	@Secured({ "ROLE_CUSTOMER" })

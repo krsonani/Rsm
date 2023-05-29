@@ -71,7 +71,7 @@ public class TablesController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-//	@Secured({ "ROLE_MANAGER"})
+ 	@Secured({ "ROLE_MANAGER"})
 	@PostMapping("/toggleTableStatus")
 	public ResponseEntity<?> toggleTableStatus(@RequestBody List<Integer> tableIds){
 		
@@ -105,14 +105,23 @@ public class TablesController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
+ 	@Secured({"ROLE_CUSTOMER","ROLE_MANAGER"})
 	@GetMapping("/addToWaitingListForAnySittingTable/{id}/{capacity}")
 	public ResponseEntity<?> addToWaitingListForAnySittingTable(@PathVariable int id, @PathVariable int capacity){
 		
-		tablesService.addToWaitingListForAnySittingTable(id,capacity);
+		if(tablesService.addToWaitingListForAnySittingTable(id,capacity))
+		{
+			response.put("msg", "Added user to a WQ");
+			response.put("status", "200");
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		}else
+		{
+			response.put("msg", "All ready added in wating queue");
+			response.put("status", "400");
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
 		
-		response.put("msg", "Added user to a WQ");
-		response.put("status", "200");
-		return new ResponseEntity<>(response, HttpStatus.OK);
+
 	}
 	
 //	@GetMapping("/addToWaitingListForFourSittingTable/{id}")
@@ -135,7 +144,8 @@ public class TablesController {
 	
 
 	//will keep hitting this API to check if the user has got any table or not----------------------------------------------------------------------------------
-	@GetMapping("/isAnyTableVacantNow/{id}")
+	@Secured({"ROLE_CUSTOMER"})
+    @GetMapping("/isAnyTableVacantNow/{id}")
 	public ResponseEntity<?> isAnyTableVacantNow(@PathVariable int id){
 		
 		System.out.println("i am being hit by frontend.");
@@ -160,6 +170,7 @@ public class TablesController {
 		}
 	}
 	
+	@Secured({"ROLE_MANAGER"})
 	@GetMapping("/getSurplusUsersList")
 	public Map<Integer,Integer> getSurplusUsersList(){
 		
@@ -177,6 +188,7 @@ public class TablesController {
 			return map;
 	}
 	
+	@Secured({"ROLE_MANAGER"})
 	@PostMapping("/handleTable/{uids}")
 	public ResponseEntity<?> handleTable(@RequestBody List<Integer> tableIds, @PathVariable int uids)
 	{

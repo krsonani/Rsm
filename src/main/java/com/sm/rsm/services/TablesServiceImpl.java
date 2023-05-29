@@ -59,21 +59,40 @@ public class TablesServiceImpl implements TablesService {
 	}
 
 	@Override
-	public void addToWaitingListForAnySittingTable(int id, int capacity) {
+	public boolean addToWaitingListForAnySittingTable(int id, int capacity) {
+		if(waitingListForTwoSittingTable.contains(id))
+			return false;
+		if(waitingListForFourSittingTable.contains(id))
+		return false;
+		if(waitingListForEightSittingTable.contains(id))
+		return false;
+		if(waitingListForSurplusUsers.containsKey(usersDao.getReferenceById(id)))
+			return false;
 		
 		if(capacity<=2)
-			waitingListForTwoSittingTable.add(id)
-;
+		{
+			
+			waitingListForTwoSittingTable.add(id);
+			return true;
+		}	
 		else if(capacity<=4)
-			waitingListForFourSittingTable.add(id)
-;
+		{
+
+			waitingListForFourSittingTable.add(id);
+			return true;
+		}
 		else if(capacity<=8)
-			waitingListForEightSittingTable.add(id)
-;
+		{
+
+			waitingListForEightSittingTable.add(id);
+			return true;
+		}
 		else
-			waitingListForSurplusUsers.put(usersDao.getReferenceById(id)
-, capacity);
-			System.out.println(waitingListForSurplusUsers);
+		{
+
+			waitingListForSurplusUsers.put(usersDao.getReferenceById(id), capacity);
+			return true;
+		}
 	}
 
 //	@Override
@@ -94,6 +113,7 @@ public class TablesServiceImpl implements TablesService {
 	public int autoAssignUserToTable(Tables table) {
 		
 		if(table.getCapacity()==2) {
+			
 			if(!waitingListForTwoSittingTable.isEmpty()) {
 				return waitingListForTwoSittingTable.poll();
 			}
